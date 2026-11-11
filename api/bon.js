@@ -6,8 +6,7 @@ module.exports = (req, res) => {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(id)) {
     res.statusCode = 404; res.setHeader('Content-Type', 'text/plain; charset=utf-8'); return res.end('Bon introuvable');
   }
-  const host = req.headers['x-forwarded-host'] || req.headers.host;
-  const site = `https://${host}`;
+  const site = 'https://forever-catalogue-eight.vercel.app';
   const img = `${SUPABASE_URL}/storage/v1/object/public/bons/${id}.jpg`;
   const title = `Bon de commande · ${BRAND}`;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');

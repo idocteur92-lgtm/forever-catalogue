@@ -15,7 +15,7 @@ for (const p of window.PRODUCTS) {
 <meta property="og:type" content="product"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(p.short)}">
 <meta property="og:image" content="${esc(image)}"><meta property="og:url" content="${SITE}/p/${p.id}"><meta property="og:site_name" content="Objectif Santé Durable · Catalogue Forever">
 <meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="${SITE}/#produit-${p.id}">
-<meta http-equiv="refresh" content="0;url=${SITE}/#produit-${p.id}"><script>location.replace('${SITE}/#produit-${p.id}')</script>
+<meta http-equiv="refresh" content="0;url=${SITE}/#produit-${p.id}">
 </head><body style="font-family:sans-serif;padding:24px"><a href="${SITE}/#produit-${p.id}">${esc(p.name)}</a></body></html>`;
   fs.writeFileSync(path.join(__dirname, 'p', `${p.id}.html`), html);
 }

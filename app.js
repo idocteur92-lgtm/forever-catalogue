@@ -23,11 +23,12 @@ const store = {
 };
 let cart = store.get('fl-cart', {});
 const saveCart = () => { store.set('fl-cart', cart); updateBadge(); };
-const cartItems = () => Object.keys(cart).filter(k => byId[k.split('|')[0]]).map(k => { const [id, v] = k.split('|'); return { id, v: +v, q: cart[k] }; });
+const cartItems = () => Object.keys(cart).map(k => { const [id, v] = k.split('|'); return { id, v: +v, q: Math.floor(+cart[k]) }; })
+  .filter(it => { const p = byId[it.id]; return p && Number.isInteger(it.v) && it.v >= 0 && it.v < (p.prices ? p.prices.length : 1) && it.q >= 1 && it.q <= 999; });
 const cartCount = () => cartItems().reduce((a, b) => a + b.q, 0);
 function updateBadge() { const n = cartCount(); $('#badge').textContent = n || ''; }
 const inCart = id => Object.keys(cart).some(k => k.split('|')[0] === id);
-function addToCart(id, v = 0, q = 1) { const k = `${id}|${v}`; cart[k] = (cart[k] || 0) + q; if (cart[k] <= 0) delete cart[k]; saveCart(); }
+function addToCart(id, v = 0, q = 1) { const p = byId[id]; v = +v; q = Math.floor(+q); if (!p || !Number.isInteger(v) || v < 0 || v >= (p.prices ? p.prices.length : 1) || !Number.isFinite(q)) return; const k = `${id}|${v}`; if ((cart[k] || 0) + q > 999) q = 999 - (cart[k] || 0); cart[k] = (cart[k] || 0) + q; if (cart[k] <= 0) delete cart[k]; saveCart(); }
 
 /* ---------- lien public d'un produit (aperçu avec photo dans WhatsApp) ---------- */
 function siteUrl() {
@@ -116,7 +117,7 @@ function vHome() {
     <span class="eyebrow">${hello}</span>
     <h1>L'Aloe vera au service de votre <em>bien-être</em></h1>
     <p>Tous les produits Forever, leurs prix, leurs bienfaits et les conseils d'utilisation. Trouvez le produit adapté à votre besoin, commandez sur WhatsApp.</p>
-    <button class="search-fake" data-search><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#66706A" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>Rechercher : prostate, Aloe gel, #715…</button>
+    <button class="search-fake" data-search><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#66706A" stroke-width="2.3" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>Rechercher : prostate, Aloe gel, fatigue…</button>
     <div class="hero-stats"><div><b>${P.length}</b>produits</div><div><b>${B.length}</b>besoins santé</div><div><b>${U.length}</b>catégories</div></div>
   </section>
 
@@ -238,7 +239,7 @@ function vListe() {
   return `<div class="page-head"><h1>Mon panier</h1><p>Vérifiez vos produits puis envoyez la commande sur WhatsApp. Le paiement et la livraison se font directement avec votre conseillère.</p></div>
   <div style="margin-top:14px">${items.map(it => { const p = byId[it.id], up = unitPrice(p, it.v), k = `${it.id}|${it.v}`;
     return `<div class="li"><a class="thumb" href="#produit-${p.id}"><img src="img/${p.img}.jpg" alt=""></a>
-      <div class="info"><h3>${esc(p.name)}</h3><small>${p.prices ? esc(variantLabel(p, it.v)) : esc(p.code)} · ${fmt(up)} F</small>
+      <div class="info"><div style="display:flex;justify-content:space-between;gap:8px"><h3>${esc(p.name)}</h3><button data-rm="${k}" aria-label="Retirer ${esc(p.name)} du panier" style="color:var(--muted);font-size:20px;line-height:1;width:32px;height:32px;margin:-6px -6px 0 0;flex:none">×</button></div><small>${p.prices ? esc(variantLabel(p, it.v)) : esc(p.code)} · ${fmt(up)} F</small>
       <div class="row"><b class="tnum">${fmt(up * it.q)} F CFA</b><div class="qty"><button data-cq="${k}" data-d="-1" aria-label="Moins">−</button><span class="tnum">${it.q}</span><button data-cq="${k}" data-d="1" aria-label="Plus">+</button></div></div></div></div>`; }).join('')}</div>
   <div class="total"><div class="r"><span style="font-weight:700">Total estimé</span><b class="tnum">${fmt(total)} F</b></div><small>${cartCount()} article${cartCount() > 1 ? 's' : ''} · prix clients conseillés</small></div>
   <button class="btn wa" style="width:100%" id="checkoutBtn">${waIcon} Commander sur WhatsApp</button>
@@ -345,11 +346,11 @@ function openCheckout(items, fromCart) {
       <div class="tot"><span>Total</span><b class="tnum">${fmt(total)} F CFA</b></div></div>
     <form id="coForm" novalidate>
       <div id="coErr"></div>
-      <label class="field"><span>Nom complet</span><input class="input" name="name" autocomplete="name" value="${esc(c.name || '')}" required></label>
+      <label class="field"><span>Nom complet</span><input class="input" name="name" autocomplete="name" maxlength="80" value="${esc(c.name || '')}" required></label>
       <label class="field"><span>Téléphone (WhatsApp)</span><div class="phone-in"><em>+227</em><input class="input" name="phone" inputmode="tel" autocomplete="tel" placeholder="90 00 00 00" value="${esc(c.phone ? c.phone.replace(/^227/, '') : '')}" required></div></label>
       <label class="field"><span>Quartier / ville</span><input class="input" name="quartier" autocomplete="address-level2" placeholder="Ex. Plateau, Niamey" value="${esc(c.quartier || '')}"></label>
       <div class="field"><span>Réception</span><div class="seg"><button type="button" data-dl="livraison" class="${delivery==='livraison'?'on':''}">🚚 Livraison</button><button type="button" data-dl="retrait" class="${delivery==='retrait'?'on':''}">🏬 Retrait</button></div></div>
-      <label class="field"><span>Note <i>(facultatif)</i></span><textarea class="input" name="note" placeholder="Heure de livraison, point de repère…"></textarea></label>
+      <label class="field"><span>Note <i>(facultatif)</i></span><textarea class="input" name="note" maxlength="500" placeholder="Heure de livraison, point de repère…"></textarea></label>
       <button class="btn wa" style="width:100%" type="submit" id="coSubmit">${waIcon} Envoyer la commande sur WhatsApp</button>
       ${me ? `<p style="text-align:center;color:var(--muted);font-size:12.5px;margin:10px 0 0">La commande sera aussi enregistrée dans votre compte.</p>` : backend === 'on' ? `<p style="text-align:center;color:var(--muted);font-size:12.5px;margin:10px 0 0"><a href="#compte" style="color:var(--green-3);font-weight:800">Connectez-vous</a> pour retrouver cette commande dans votre compte.</p>` : ''}
     </form>`);
@@ -359,7 +360,8 @@ function openCheckout(items, fromCart) {
 async function submitCheckout(e) {
   e.preventDefault();
   const f = e.target, err = $('#coErr');
-  const client = { name: f.name.value.trim(), phone: normPhone(f.phone.value), quartier: f.quartier.value.trim(), note: f.note.value.trim(), delivery };
+  const cl = (v, n) => v.replace(/[<>]/g, '').trim().slice(0, n);
+  const client = { name: cl(f.name.value, 80), phone: normPhone(f.phone.value), quartier: cl(f.quartier.value, 80), note: cl(f.note.value, 500), delivery: delivery === 'retrait' ? 'retrait' : 'livraison' };
   if (client.name.length < 2) { err.innerHTML = '<div class="err">Indiquez votre nom.</div>'; f.name.focus(); return; }
   if (!client.phone) { err.innerHTML = '<div class="err">Numéro de téléphone invalide.</div>'; f.phone.focus(); return; }
   store.set('fl-client', { name: client.name, phone: client.phone, quartier: client.quartier, delivery });
@@ -373,7 +375,8 @@ async function submitCheckout(e) {
   // 1) enregistrement de la commande (compte client) ou historique du téléphone
   if (me && online) {
     const { data, error } = await sb.from('orders').insert({ customer_name: client.name, phone: client.phone, quartier: client.quartier, delivery, note: client.note, items, total, bon_url: bonUrl }).select('id').single();
-    if (!error && data) orderNo = data.id;
+    if (!error && data) orderNo = data.id; else bonUrl = bonUrl;
+    if (error && /Trop de commandes/.test(error.message || '')) toast('Commande non enregistrée dans le compte (limite du jour), mais envoyée sur WhatsApp.');
   }
   // 2) image du bon de commande, mise en ligne pour apparaître en grande photo dans WhatsApp
   try {
@@ -404,17 +407,19 @@ const STATUS = { nouvelle: 'Reçue', confirmee: 'Confirmée', preparation: 'En p
 const STEP = { nouvelle: 1, confirmee: 2, preparation: 3, livree: 4, annulee: 0 };
 const dateFr = d => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 function orderCard(o, adminView) {
-  const items = Array.isArray(o.items) ? o.items : [];
+  const items = (Array.isArray(o.items) ? o.items : []).filter(it => it && typeof it === 'object').map(it => ({ id: String(it.id ?? ''), v: Number(it.v) || 0, q: Number(it.q) || 0, price: Number(it.price) || 0, name: String(it.name ?? ''), label: String(it.label ?? '') }));
+  const bon = typeof o.bon_url === 'string' && o.bon_url.startsWith(`${C.SUPABASE_URL}/storage/v1/object/public/bons/`) ? o.bon_url : '';
+  const total = Number(o.total) || 0;
   return `<div class="order">
-    <div class="hd"><div><b>Commande N° ${esc(o.id)}</b><small>${dateFr(o.created_at)}</small>${adminView ? `<small style="color:var(--ink);font-weight:800;margin-top:4px">👤 ${esc(o.customer_name)} · ${esc(prettyPhone(o.phone))}</small><small>📍 ${esc(o.quartier || '—')} · ${o.delivery === 'retrait' ? 'Retrait' : 'Livraison'}</small>` : ''}</div><span class="st st-${o.status}">${STATUS[o.status] || o.status}</span></div>
+    <div class="hd"><div><b>Commande N° ${esc(o.id)}</b><small>${dateFr(o.created_at)}</small>${adminView ? `<small style="color:var(--ink);font-weight:800;margin-top:4px">👤 ${esc(o.customer_name)} · ${esc(prettyPhone(o.phone))}</small><small>📍 ${esc(o.quartier || '—')} · ${o.delivery === 'retrait' ? 'Retrait' : 'Livraison'}</small>` : ''}</div><span class="st st-${STATUS[o.status] ? o.status : 'nouvelle'}">${STATUS[o.status] || 'Reçue'}</span></div>
     ${o.status !== 'annulee' ? `<div class="steps">${[1,2,3,4].map(i => `<i class="${STEP[o.status] >= i ? 'on' : ''}"></i>`).join('')}</div>` : ''}
     ${adminView ? `<div style="display:flex;gap:6px;margin:10px 0 0;overflow-x:auto">${items.map(it => byId[it.id] ? `<a href="#produit-${esc(it.id)}" style="flex:none;width:58px;height:58px;border-radius:12px;background:var(--sand);overflow:hidden"><img src="img/${esc(byId[it.id].img)}.jpg" alt="" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;padding:3px"></a>` : '').join('')}</div>` : ''}
-    <ul>${items.map(it => `<li><span>${it.q} × ${esc(it.name)}${it.label ? ` <small style="color:var(--muted)">(${esc(it.label)})</small>` : ''}</span><span class="tnum">${fmt(it.price * it.q)} F</span></li>`).join('')}</ul>
-    ${adminView && o.bon_url ? `<a href="${esc(o.bon_url)}" target="_blank" rel="noopener" style="display:inline-block;font-size:13px;font-weight:800;color:var(--green-3);margin:0 0 10px">🧾 Voir le bon de commande</a>` : ''}
+    <ul>${items.map(it => `<li><span>${fmt(it.q)} × ${esc(it.name)}${it.label ? ` <small style="color:var(--muted)">(${esc(it.label)})</small>` : ''}</span><span class="tnum">${fmt(it.price * it.q)} F</span></li>`).join('')}</ul>
+    ${bon ? `<a href="${esc(bon)}" target="_blank" rel="noopener" style="display:inline-block;font-size:13px;font-weight:800;color:var(--green-3);margin:0 0 10px">🧾 Voir le bon de commande</a>` : ''}
     ${o.note && adminView ? `<p style="font-size:13px;margin:0 0 10px;color:var(--muted)">📝 ${esc(o.note)}</p>` : ''}
-    <div class="ft"><b class="tnum">${fmt(o.total)} F CFA</b>
-      ${adminView ? `<span style="display:flex;gap:6px"><a class="btn wa mini" target="_blank" rel="noopener" href="https://wa.me/${esc(o.phone)}?text=${encodeURIComponent(`Bonjour ${o.customer_name} 👋\nC'est ${C.BRAND}, au sujet de votre commande N° ${o.id} (${fmt(o.total)} F CFA).`)}">${waIcon}</a>
-        <select class="select" data-status="${o.id}" aria-label="Statut">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k===o.status?'selected':''}>${v}</option>`).join('')}</select></span>`
+    <div class="ft"><b class="tnum">${fmt(total)} F CFA</b>
+      ${adminView ? `<span style="display:flex;gap:6px"><a class="btn wa mini" target="_blank" rel="noopener" href="https://wa.me/${esc(String(o.phone).replace(/\D/g, ''))}?text=${encodeURIComponent(`Bonjour ${o.customer_name} 👋\nC'est ${C.BRAND}, au sujet de votre commande N° ${o.id} (${fmt(total)} F CFA).`)}">${waIcon}</a>
+        <select class="select" data-status="${esc(o.id)}" aria-label="Statut">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k===o.status?'selected':''}>${v}</option>`).join('')}</select></span>`
       : `<button class="btn ghost mini" data-reorder='${esc(JSON.stringify(items.map(it => [it.id, it.v || 0, it.q])))}'>Recommander</button>`}
     </div></div>`;
 }
@@ -424,7 +429,7 @@ function vCompte() {
   if (backend === 'off') {
     const local = store.get('fl-orders', []);
     return `<div class="page-head"><h1>Mon compte</h1></div>
-      <div class="offline" style="margin-top:14px"><div class="big">🔐</div><h2 style="font-size:20px;margin:6px 0">Comptes clients bientôt actifs</h2><p style="color:var(--muted);font-size:14px;margin:0">La création de compte et le suivi des commandes fonctionnent sur le site en ligne. Ici, vous pouvez toujours commander sur WhatsApp.</p></div>
+      <div class="offline" style="margin-top:14px"><div class="big">📶</div><h2 style="font-size:20px;margin:6px 0">Connexion impossible</h2><p style="color:var(--muted);font-size:14px;margin:0 0 14px">Vérifiez votre connexion Internet puis réessayez. Vous pouvez toujours commander sur WhatsApp.</p><button class="btn pri" id="retryBackend" style="width:100%">Réessayer</button></div>
       ${local.length ? `<div class="sec"><h2 style="font-size:18px">Commandes sur ce téléphone</h2></div>${local.map(o => orderCard(o)).join('')}` : ''}${foot()}`;
   }
   if (!me) return `<div class="page-head"><h1>Mon compte</h1><p>Créez votre compte avec votre numéro de téléphone pour retrouver toutes vos commandes et suivre leur livraison.</p></div>
@@ -443,7 +448,12 @@ function vCompte() {
     ${pr.is_admin ? `<a class="btn pri" style="width:100%;margin-top:12px" href="#admin">🛠️ Espace administrateur</a>` : ''}
     <div class="sec"><div><h2 style="font-size:20px">Mes commandes</h2><p>Le statut est mis à jour par votre conseillère.</p></div></div>
     <div id="myOrders">${ordersCache ? (ordersCache.length ? ordersCache.map(o => orderCard(o)).join('') : `<div class="offline"><p style="margin:0;color:var(--muted)">Aucune commande pour l'instant.</p><a class="btn pri" style="margin-top:12px" href="#catalogue">Découvrir les produits</a></div>`) : '<p style="color:var(--muted)">Chargement…</p>'}</div>
-    <details class="panel" style="margin-top:16px"><summary style="font-weight:800;cursor:pointer">🔑 Changer mon mot de passe</summary>
+    <details class="panel" style="margin-top:16px"><summary style="font-weight:800;cursor:pointer">✏️ Modifier mes informations</summary>
+      <form id="profForm" novalidate style="margin-top:14px"><div id="profErr"></div>
+        <label class="field"><span>Nom complet</span><input class="input" name="full_name" autocomplete="name" maxlength="80" value="${esc(pr.full_name)}" required></label>
+        <label class="field"><span>Quartier / ville</span><input class="input" name="quartier" maxlength="80" value="${esc(pr.quartier)}"></label>
+        <button class="btn pri" style="width:100%" type="submit">Enregistrer</button></form></details>
+    <details class="panel" style="margin-top:12px"><summary style="font-weight:800;cursor:pointer">🔑 Changer mon mot de passe</summary>
       <form id="pwForm" novalidate style="margin-top:14px"><div id="pwErr"></div>
         <label class="field"><span>Nouveau mot de passe <i>(6 caractères minimum)</i></span><div class="phone-in"><input class="input" name="p1" type="password" autocomplete="new-password" required minlength="6"><button type="button" class="more" data-eye style="padding:0 14px;flex:none">Afficher</button></div></label>
         <label class="field"><span>Confirmer le mot de passe</span><input class="input" name="p2" type="password" autocomplete="new-password" required minlength="6"></label>
@@ -538,6 +548,7 @@ function bindView(h, p) {
   const af = $('#authForm'); if (af) af.onsubmit = submitAuth;
   const rf = $('#resetForm'); if (rf) rf.onsubmit = submitReset;
   const pf = $('#pwForm'); if (pf) pf.onsubmit = submitPw;
+  const prf = $('#profForm'); if (prf) prf.onsubmit = submitProfile;
 }
 function bindProduct(p) {
   const refresh = () => {
@@ -566,6 +577,16 @@ function bindProduct(p) {
   const box = $('#pricebox');
   if ('IntersectionObserver' in window && box) { buyObs = new IntersectionObserver(([en]) => buybar.classList.toggle('show', !en.isIntersecting && en.boundingClientRect.top < 0)); buyObs.observe(box); }
 }
+async function submitProfile(e) {
+  e.preventDefault(); const f = e.target, err = $('#profErr');
+  const full_name = f.full_name.value.replace(/[<>]/g, '').trim().slice(0, 80), quartier = f.quartier.value.replace(/[<>]/g, '').trim().slice(0, 80);
+  if (full_name.length < 2) { err.innerHTML = '<div class="err">Indiquez votre nom.</div>'; return; }
+  const { error } = await sb.from('profiles').update({ full_name, quartier }).eq('id', me.user.id);
+  if (error) { err.innerHTML = '<div class="err">Modification impossible pour le moment.</div>'; return; }
+  me.profile.full_name = full_name; me.profile.quartier = quartier;
+  const c = store.get('fl-client', {}); store.set('fl-client', { ...c, name: full_name, quartier });
+  toast('Informations enregistrées'); route(true);
+}
 async function submitPw(e) {
   e.preventDefault(); const f = e.target, err = $('#pwErr');
   const p1 = f.p1.value, p2 = f.p2.value;
@@ -592,7 +613,9 @@ document.addEventListener('click', async e => {
     addToCart(p.id); a.classList.add('in'); a.innerHTML = check; toast(`${p.name} ajouté au panier`); return; }
   const cq = e.target.closest('[data-cq]');
   if (cq) { const k = cq.dataset.cq; cart[k] = (cart[k] || 0) + +cq.dataset.d; if (cart[k] <= 0) delete cart[k]; saveCart(); route(true); return; }
-  if (e.target.closest('#clearBtn')) { cart = {}; saveCart(); route(true); return; }
+  const rm = e.target.closest('[data-rm]'); if (rm) { delete cart[rm.dataset.rm]; saveCart(); toast('Produit retiré du panier'); route(true); return; }
+  if (e.target.closest('#clearBtn')) { if (clearArmed) { cart = {}; saveCart(); clearArmed = false; route(true); } else { clearArmed = true; e.target.closest('#clearBtn').textContent = 'Appuyez encore pour tout vider'; setTimeout(() => { clearArmed = false; const b = $('#clearBtn'); if (b) b.textContent = 'Vider le panier'; }, 3500); } return; }
+  if (e.target.closest('#retryBackend')) { backend = 'checking'; route(true); await checkBackend(); route(true); return; }
   if (e.target.closest('#checkoutBtn')) { openCheckout(cartItems(), true); return; }
   if (e.target.closest('[data-search]')) { openSearch(); return; }
   const eye = e.target.closest('[data-eye]');
@@ -616,10 +639,11 @@ $('#backBtn').onclick = () => { if (history.length > 1) history.back(); else loc
 window.addEventListener('hashchange', () => { closeSearch(); closeSheet(); route(); });
 window.addEventListener('scroll', () => $('#top').classList.toggle('scrolled', scrollY > 4), { passive: true });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSearch(); closeSheet(); } });
+let clearArmed = false;
 let tt; function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2400); }
 
 /* ---------- recherche ---------- */
-const idx = P.map(p => ({ p, t: norm([p.name, p.code, p.short, uById[p.u].name, p.benefits.join(' '), p.besoins.map(b => bById[b].name + ' ' + bById[b].desc).join(' ')].join(' ')) }));
+const idx = P.map(p => ({ p, t: norm([p.name, p.code, p.code.replace(/#/g, ''), p.id, p.short, uById[p.u].name, p.benefits.join(' '), p.besoins.map(b => bById[b].name + ' ' + bById[b].desc).join(' ')].join(' ')) }));
 const SYN = { diabete: 'glycemie', diabetique: 'glycemie', sucre: 'glycemie', ventre: 'poids', maigrir: 'poids', obesite: 'poids', mincir: 'poids', kilos: 'poids', toux: 'gorge', rhume: 'gorge', grippe: 'immunite', libido: 'sexuel', sexe: 'sexuel', erection: 'sexuel', bouton: 'bouton', dent: 'dent', dents: 'dent', yeux: 'yeux', oeil: 'yeux', tension: 'tension', hypertension: 'tension', constipation: 'transit', ballonnement: 'digestion', rides: 'rides', douleur: 'articulations', dos: 'articulations', genou: 'articulations', regles: 'cycle', menopause: 'menopause' };
 function openSearch() { $('#overlay').classList.add('open'); $('#q').value = ''; renderSearch(''); setTimeout(() => $('#q').focus(), 50); }
 function closeSearch() { $('#overlay').classList.remove('open'); }
@@ -636,12 +660,16 @@ function renderSearch(q) {
     const hits = idx.filter(x => terms.every(t => x.t.includes(t))).map(x => x.p).sort((a, b) => (norm(b.name).includes(terms[0]) ? 1 : 0) - (norm(a.name).includes(terms[0]) ? 1 : 0));
     res.innerHTML = `${needs.length ? `<div class="label">Besoins</div><div class="sugg">${needs.map(b => `<a class="tag-need" href="#besoin-${b.id}">${b.icon} ${esc(b.name)}</a>`).join('')}</div>` : ''}
       <div class="label">${hits.length} produit${hits.length > 1 ? 's' : ''}</div>
-      ${hits.map(p => `<a class="hit" href="#produit-${p.id}"><span class="thumb"><img src="img/${p.img}.jpg" alt=""></span><span><b>${esc(p.name)}</b><small>${esc(p.code)} · ${esc(uById[p.u].short)}</small></span><span class="p tnum">${fmt(p.price)} F</span></a>`).join('') || '<p style="color:var(--muted)">Aucun produit trouvé. Essayez un autre mot (ex. « digestion », « crème », « 715 ») ou demandez conseil sur WhatsApp.</p>'}`;
+      ${hits.map(p => `<a class="hit" href="#produit-${p.id}"><span class="thumb"><img src="img/${p.img}.jpg" alt=""></span><span><b>${esc(p.name)}</b><small>${esc(p.code)} · ${esc(uById[p.u].short)}</small></span><span class="p tnum">${fmt(p.price)} F</span></a>`).join('') || '<p style="color:var(--muted)">Aucun produit trouvé. Essayez un autre mot (ex. « digestion », « crème », « 015 ») ou demandez conseil sur WhatsApp.</p>'}`;
   }
   res.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { $('#q').value = b.dataset.s; renderSearch(b.dataset.s); });
 }
 
 updateBadge();
 route();
-checkBackend().then(() => { if (/^#(compte|admin|liste)/.test(location.hash) || me) route(true); });
+checkBackend().then(() => {
+  if (/^#(compte|admin|liste)/.test(location.hash) || me) route(true);
+  if (me && location.hash === '#compte' && !ordersCache) loadMyOrders();
+  if (me?.profile?.is_admin && location.hash === '#admin' && !adminOrders) loadAdmin();
+});
 })();
