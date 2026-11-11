@@ -433,7 +433,7 @@ function vCompte() {
       ${authTab === 'signup' ? `<label class="field"><span>Nom complet</span><input class="input" name="full_name" autocomplete="name" required></label>` : ''}
       <label class="field"><span>Numéro de téléphone</span><div class="phone-in"><em>+227</em><input class="input" name="phone" inputmode="tel" autocomplete="tel" placeholder="90 00 00 00" required></div></label>
       ${authTab === 'signup' ? `<label class="field"><span>Quartier / ville <i>(facultatif)</i></span><input class="input" name="quartier" placeholder="Ex. Plateau, Niamey"></label>` : ''}
-      <label class="field"><span>Mot de passe ${authTab === 'signup' ? '<i>(6 caractères minimum)</i>' : ''}</span><input class="input" name="password" type="password" autocomplete="${authTab==='signup'?'new-password':'current-password'}" required minlength="6"></label>
+      <label class="field"><span>Mot de passe ${authTab === 'signup' ? '<i>(6 caractères minimum)</i>' : ''}</span><div class="phone-in"><input class="input" name="password" type="password" autocomplete="${authTab==='signup'?'new-password':'current-password'}" required minlength="6"><button type="button" class="more" data-eye style="padding:0 14px;flex:none">Afficher</button></div></label>
       <button class="btn pri" style="width:100%" type="submit" id="authBtn">${authTab === 'signup' ? 'Créer mon compte' : 'Me connecter'}</button>
     </form>
     ${authTab === 'login' ? `<p style="text-align:center;font-size:13px;color:var(--muted);margin:14px 0 0">Mot de passe oublié ? <a style="color:var(--green-3);font-weight:800" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent('Bonjour, j\'ai oublié le mot de passe de mon compte client. Mon numéro : ')}">Écrivez-nous sur WhatsApp</a></p>` : ''}</div>
@@ -443,6 +443,11 @@ function vCompte() {
     ${pr.is_admin ? `<a class="btn pri" style="width:100%;margin-top:12px" href="#admin">🛠️ Espace administrateur</a>` : ''}
     <div class="sec"><div><h2 style="font-size:20px">Mes commandes</h2><p>Le statut est mis à jour par votre conseillère.</p></div></div>
     <div id="myOrders">${ordersCache ? (ordersCache.length ? ordersCache.map(o => orderCard(o)).join('') : `<div class="offline"><p style="margin:0;color:var(--muted)">Aucune commande pour l'instant.</p><a class="btn pri" style="margin-top:12px" href="#catalogue">Découvrir les produits</a></div>`) : '<p style="color:var(--muted)">Chargement…</p>'}</div>
+    <details class="panel" style="margin-top:16px"><summary style="font-weight:800;cursor:pointer">🔑 Changer mon mot de passe</summary>
+      <form id="pwForm" novalidate style="margin-top:14px"><div id="pwErr"></div>
+        <label class="field"><span>Nouveau mot de passe <i>(6 caractères minimum)</i></span><div class="phone-in"><input class="input" name="p1" type="password" autocomplete="new-password" required minlength="6"><button type="button" class="more" data-eye style="padding:0 14px;flex:none">Afficher</button></div></label>
+        <label class="field"><span>Confirmer le mot de passe</span><input class="input" name="p2" type="password" autocomplete="new-password" required minlength="6"></label>
+        <button class="btn pri" style="width:100%" type="submit">Enregistrer le nouveau mot de passe</button></form></details>
     <button class="btn ghost" style="width:100%;margin-top:16px" id="logoutBtn">Se déconnecter</button>${foot()}`;
 }
 async function loadMyOrders() {
@@ -532,6 +537,7 @@ function bindView(h, p) {
   if (p) bindProduct(p);
   const af = $('#authForm'); if (af) af.onsubmit = submitAuth;
   const rf = $('#resetForm'); if (rf) rf.onsubmit = submitReset;
+  const pf = $('#pwForm'); if (pf) pf.onsubmit = submitPw;
 }
 function bindProduct(p) {
   const refresh = () => {
@@ -560,6 +566,15 @@ function bindProduct(p) {
   const box = $('#pricebox');
   if ('IntersectionObserver' in window && box) { buyObs = new IntersectionObserver(([en]) => buybar.classList.toggle('show', !en.isIntersecting && en.boundingClientRect.top < 0)); buyObs.observe(box); }
 }
+async function submitPw(e) {
+  e.preventDefault(); const f = e.target, err = $('#pwErr');
+  const p1 = f.p1.value, p2 = f.p2.value;
+  if (p1.length < 6) { err.innerHTML = '<div class="err">Le mot de passe doit contenir au moins 6 caractères.</div>'; return; }
+  if (p1 !== p2) { err.innerHTML = '<div class="err">Les deux mots de passe ne sont pas identiques.</div>'; return; }
+  const { error } = await sb.auth.updateUser({ password: p1 });
+  if (error) { err.innerHTML = `<div class="err">${/same|different/i.test(error.message) ? 'Choisissez un mot de passe différent de l\'ancien.' : 'Modification impossible pour le moment.'}</div>`; return; }
+  err.innerHTML = ''; f.reset(); f.closest('details').open = false; toast('Mot de passe modifié. Notez-le bien !');
+}
 async function submitReset(e) {
   e.preventDefault(); const f = e.target, err = $('#resetErr');
   const phone = normPhone(f.phone.value), password = f.password.value;
@@ -580,6 +595,8 @@ document.addEventListener('click', async e => {
   if (e.target.closest('#clearBtn')) { cart = {}; saveCart(); route(true); return; }
   if (e.target.closest('#checkoutBtn')) { openCheckout(cartItems(), true); return; }
   if (e.target.closest('[data-search]')) { openSearch(); return; }
+  const eye = e.target.closest('[data-eye]');
+  if (eye) { const i = eye.parentElement.querySelector('input'); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; eye.textContent = show ? 'Masquer' : 'Afficher'; return; }
   const ta = e.target.closest('[data-tab-auth]'); if (ta) { authTab = ta.dataset.tabAuth; route(true); return; }
   if (e.target.closest('#logoutBtn')) { await sb.auth.signOut(); me = null; ordersCache = null; adminOrders = null; toast('Vous êtes déconnecté.'); route(true); return; }
   const ro = e.target.closest('[data-reorder]');
