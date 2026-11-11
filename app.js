@@ -377,6 +377,11 @@ async function submitCheckout(e) {
     const { data, error } = await sb.from('orders').insert({ customer_name: client.name, phone: client.phone, quartier: client.quartier, delivery, note: client.note, items, total, bon_url: bonUrl }).select('id').single();
     if (!error && data) orderNo = data.id; else bonUrl = bonUrl;
     if (error && /Trop de commandes/.test(error.message || '')) toast('Commande non enregistrée dans le compte (limite du jour), mais envoyée sur WhatsApp.');
+  } else if (online) {
+    try {
+      const { data } = await sb.functions.invoke('compte', { body: { action: 'guest_order', order: { customer_name: client.name, phone: client.phone, quartier: client.quartier, delivery, note: client.note, items, total, bon_url: bonUrl } } });
+      if (data?.ok) orderNo = data.id;
+    } catch {}
   }
   // 2) image du bon de commande, mise en ligne pour apparaître en grande photo dans WhatsApp
   try {
@@ -387,7 +392,7 @@ async function submitCheckout(e) {
     }
   } catch {}
   if (!bonLink) bonUrl = '';
-  if (!me) { const hist = store.get('fl-orders', []); hist.unshift({ id: 'L' + Date.now().toString(36).toUpperCase().slice(-5), created_at: new Date().toISOString(), items, total, status: 'nouvelle', bon_url: bonUrl }); store.set('fl-orders', hist.slice(0, 30)); }
+  if (!me) { const hist = store.get('fl-orders', []); hist.unshift({ id: orderNo || ('L' + Date.now().toString(36).toUpperCase().slice(-5)), created_at: new Date().toISOString(), items, total, status: 'nouvelle', bon_url: bonUrl }); store.set('fl-orders', hist.slice(0, 30)); }
   // 3) WhatsApp s'ouvre directement sur le numéro, avec le bon en photo et le détail en texte
   const { text } = orderMessage(checkoutItems, client, orderNo, bonLink);
   const url = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
@@ -411,7 +416,7 @@ function orderCard(o, adminView) {
   const bon = typeof o.bon_url === 'string' && o.bon_url.startsWith(`${C.SUPABASE_URL}/storage/v1/object/public/bons/`) ? o.bon_url : '';
   const total = Number(o.total) || 0;
   return `<div class="order">
-    <div class="hd"><div><b>Commande N° ${esc(o.id)}</b><small>${dateFr(o.created_at)}</small>${adminView ? `<small style="color:var(--ink);font-weight:800;margin-top:4px">👤 ${esc(o.customer_name)} · ${esc(prettyPhone(o.phone))}</small><small>📍 ${esc(o.quartier || '—')} · ${o.delivery === 'retrait' ? 'Retrait' : 'Livraison'}</small>` : ''}</div><span class="st st-${STATUS[o.status] ? o.status : 'nouvelle'}">${STATUS[o.status] || 'Reçue'}</span></div>
+    <div class="hd"><div><b>Commande N° ${esc(o.id)}</b><small>${dateFr(o.created_at)}</small>${adminView ? `<small style="color:var(--ink);font-weight:800;margin-top:4px">👤 ${esc(o.customer_name)} · ${esc(prettyPhone(String(o.phone)))} <span class="st" style="font-size:10.5px;padding:2px 8px;margin-left:4px;${o.user_id ? 'background:#E3F1E7;color:#2E7A57' : 'background:#EEE;color:#555'}">${o.user_id ? 'Client inscrit' : 'Invité'}</span></small><small>📍 ${esc(o.quartier || '—')} · ${o.delivery === 'retrait' ? 'Retrait' : 'Livraison'}</small>` : ''}</div><span class="st st-${STATUS[o.status] ? o.status : 'nouvelle'}">${STATUS[o.status] || 'Reçue'}</span></div>
     ${o.status !== 'annulee' ? `<div class="steps">${[1,2,3,4].map(i => `<i class="${STEP[o.status] >= i ? 'on' : ''}"></i>`).join('')}</div>` : ''}
     ${adminView ? `<div style="display:flex;gap:6px;margin:10px 0 0;overflow-x:auto">${items.map(it => byId[it.id] ? `<a href="#produit-${esc(it.id)}" style="flex:none;width:58px;height:58px;border-radius:12px;background:var(--sand);overflow:hidden"><img src="img/${esc(byId[it.id].img)}.jpg" alt="" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;padding:3px"></a>` : '').join('')}</div>` : ''}
     <ul>${items.map(it => `<li><span>${fmt(it.q)} × ${esc(it.name)}${it.label ? ` <small style="color:var(--muted)">(${esc(it.label)})</small>` : ''}</span><span class="tnum">${fmt(it.price * it.q)} F</span></li>`).join('')}</ul>
@@ -487,25 +492,79 @@ async function submitAuth(e) {
 }
 
 /* ---------- administration ---------- */
-let adminFilter = 'actives', adminOrders = null;
+let adminFilter = 'actives', adminOrders = null, adminTab = 'commandes', clients = null, clientQ = '', clientFilter = 'tous';
+const adminTabs = () => `<div class="tabs" style="margin-top:4px"><button data-atab="commandes" class="${adminTab==='commandes'?'on':''}">📦 Commandes</button><button data-atab="clients" class="${adminTab==='clients'?'on':''}">👥 Clients</button></div>`;
 function vAdmin() {
   if (!me?.profile?.is_admin) return `<div class="empty"><div class="big">🔒</div><h2>Accès réservé</h2><p>Connectez-vous avec le compte administrateur.</p><a class="btn pri" style="max-width:260px;margin:16px auto 0" href="#compte">Mon compte</a></div>`;
-  if (!adminOrders) return `<div class="page-head"><h1>Commandes</h1></div><p style="color:var(--muted)">Chargement…</p>`;
-  const list = adminOrders.filter(o => adminFilter === 'toutes' || (adminFilter === 'actives' ? !['livree','annulee'].includes(o.status) : o.status === adminFilter));
+  return adminTab === 'clients' ? vClients() : vAdminOrders();
+}
+function vAdminOrders() {
+  if (!adminOrders) return `<div class="page-head"><h1>Administration</h1></div>${adminTabs()}<p style="color:var(--muted)">Chargement…</p>`;
+  const list = adminOrders.filter(o => adminFilter === 'toutes' || (adminFilter === 'invites' ? !o.user_id : adminFilter === 'actives' ? !['livree','annulee'].includes(o.status) : o.status === adminFilter));
   const today = new Date().toDateString();
   const kNew = adminOrders.filter(o => o.status === 'nouvelle').length;
   const kToday = adminOrders.filter(o => new Date(o.created_at).toDateString() === today).length;
-  const ca = adminOrders.filter(o => o.status === 'livree').reduce((a, o) => a + o.total, 0);
-  return `<div class="page-head"><h1>Commandes</h1><p>Toutes les commandes passées par vos clients connectés.</p></div>
+  const ca = adminOrders.filter(o => o.status === 'livree').reduce((a, o) => a + (Number(o.total) || 0), 0);
+  return `<div class="page-head"><h1>Administration</h1><p>Toutes les commandes : clients inscrits et visiteurs (invités).</p></div>${adminTabs()}
     <div class="kpis"><div class="kpi"><b class="tnum">${kNew}</b><span>Nouvelles</span></div><div class="kpi"><b class="tnum">${kToday}</b><span>Aujourd'hui</span></div><div class="kpi"><b class="tnum" style="font-size:17px">${fmt(ca)}</b><span>F CFA livrés</span></div></div>
-    <div class="chips">${[['actives','En cours'],['nouvelle','Nouvelles'],['preparation','En préparation'],['livree','Livrées'],['annulee','Annulées'],['toutes','Toutes']].map(([k, l]) => `<button class="chip ${adminFilter===k?'on':''}" data-af="${k}">${l}</button>`).join('')}</div>
+    <div class="chips">${[['actives','En cours'],['nouvelle','Nouvelles'],['preparation','En préparation'],['livree','Livrées'],['invites','Invités'],['annulee','Annulées'],['toutes','Toutes']].map(([k, l]) => `<button class="chip ${adminFilter===k?'on':''}" data-af="${k}">${l}</button>`).join('')}</div>
     ${list.length ? list.map(o => orderCard(o, true)).join('') : '<div class="offline"><p style="margin:0;color:var(--muted)">Aucune commande dans cette catégorie.</p></div>'}
-    <div class="sec"><h2 style="font-size:18px">Réinitialiser le mot de passe d'un client</h2></div>
-    <div class="panel"><form id="resetForm" novalidate><div id="resetErr"></div>
-      <label class="field"><span>Numéro du client</span><div class="phone-in"><em>+227</em><input class="input" name="phone" inputmode="tel" required></div></label>
-      <label class="field"><span>Nouveau mot de passe</span><input class="input" name="password" required minlength="6"></label>
-      <button class="btn pri" style="width:100%" type="submit">Réinitialiser</button></form></div>
     <button class="btn ghost" style="width:100%;margin-top:12px" id="refreshAdmin">Actualiser</button>${foot()}`;
+}
+const dateCourte = d => d ? new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : 'jamais';
+function vClients() {
+  if (!clients) return `<div class="page-head"><h1>Administration</h1></div>${adminTabs()}<p style="color:var(--muted)">Chargement des clients…</p>`;
+  const q = norm(clientQ.trim());
+  const list = clients.filter(c => (clientFilter === 'tous' || (clientFilter === 'bloques' ? c.blocked : clientFilter === 'acheteurs' ? c.orders > 0 : !c.blocked)) && (!q || norm(`${c.full_name} ${c.phone} ${c.quartier}`).includes(q.replace(/\s/g, '')) || norm(`${c.full_name} ${c.quartier}`).includes(q)));
+  return `<div class="page-head"><h1>Administration</h1><p>${clients.length} compte${clients.length > 1 ? 's' : ''} inscrit${clients.length > 1 ? 's' : ''}.</p></div>${adminTabs()}
+    <div class="kpis"><div class="kpi"><b class="tnum">${clients.length}</b><span>Inscrits</span></div><div class="kpi"><b class="tnum">${clients.filter(c => c.orders > 0).length}</b><span>Ont commandé</span></div><div class="kpi"><b class="tnum">${clients.filter(c => c.blocked).length}</b><span>Bloqués</span></div></div>
+    <input class="input" id="clientSearch" type="search" placeholder="Rechercher : nom, numéro, quartier…" value="${esc(clientQ)}" style="margin-bottom:10px">
+    <div class="chips">${[['tous','Tous'],['actifs','Actifs'],['acheteurs','Ont commandé'],['bloques','Bloqués']].map(([k, l]) => `<button class="chip ${clientFilter===k?'on':''}" data-cf="${k}">${l}</button>`).join('')}</div>
+    <div id="clientList">${list.length ? list.map(c => `<button class="li" data-client="${esc(c.id)}" style="width:100%;text-align:left">
+      <span class="thumb" style="display:grid;place-items:center;font-family:Fraunces,serif;font-size:24px;font-weight:700;color:var(--green);background:${c.blocked ? '#F3E6E6' : 'var(--gold-soft)'}">${esc((c.full_name || '?').trim()[0]?.toUpperCase() || '?')}</span>
+      <span class="info"><h3>${esc(c.full_name || 'Sans nom')} ${c.is_admin ? '<span class="st st-confirmee" style="font-size:10px;padding:2px 7px">Admin</span>' : ''}${c.blocked ? ' <span class="st st-annulee" style="font-size:10px;padding:2px 7px">Bloqué</span>' : ''}</h3>
+        <small>${esc(prettyPhone(c.phone))}${c.quartier ? ' · ' + esc(c.quartier) : ''}</small>
+        <small>${c.orders} commande${c.orders > 1 ? 's' : ''}${c.spent ? ' · ' + fmt(c.spent) + ' F' : ''} · inscrit le ${dateCourte(c.created_at)}</small></span>
+      <span style="color:var(--muted);font-size:20px">›</span></button>`).join('') : '<div class="offline"><p style="margin:0;color:var(--muted)">Aucun client trouvé.</p></div>'}</div>
+    <button class="btn ghost" style="width:100%;margin-top:12px" id="refreshClients">Actualiser</button>${foot()}`;
+}
+async function loadClients() {
+  const { data, error } = await sb.functions.invoke('compte', { body: { action: 'list_clients' } });
+  clients = !error && data?.ok ? data.clients : []; if (error) toast('Impossible de charger les clients');
+  if (location.hash === '#admin') route(true);
+}
+async function adminAction(action, c, extra = {}) {
+  const { data, error } = await sb.functions.invoke('compte', { body: { action, id: c.id, ...extra } });
+  if (error || !data?.ok) { let m = 'Opération impossible.'; try { m = (await error.context.json()).error || m; } catch {} toast(m); return false; }
+  return true;
+}
+function openClient(id) {
+  const c = clients?.find(x => x.id === id); if (!c) return;
+  const ords = (adminOrders || []).filter(o => o.user_id === c.id);
+  let delArmed = false;
+  openSheet(`<div class="profile" style="margin:6px 0 14px"><span class="av">${esc((c.full_name || '?').trim()[0]?.toUpperCase() || '?')}</span><div style="flex:1;min-width:0"><h2>${esc(c.full_name || 'Sans nom')}</h2><p>${esc(prettyPhone(c.phone))}${c.quartier ? ' · ' + esc(c.quartier) : ''}</p></div></div>
+    <div class="kpis" style="margin-top:0"><div class="kpi"><b class="tnum">${c.orders}</b><span>Commandes</span></div><div class="kpi"><b class="tnum" style="font-size:16px">${fmt(c.spent)}</b><span>F CFA</span></div><div class="kpi"><b style="font-size:13px;font-family:Manrope">${dateCourte(c.last_sign_in_at)}</b><span>Dernière visite</span></div></div>
+    ${c.blocked ? `<div class="err">Ce client est bloqué : il ne peut plus se connecter ni commander depuis son compte.</div>` : ''}
+    <a class="btn wa" style="width:100%" target="_blank" rel="noopener" href="https://wa.me/${esc(String(c.phone).replace(/\D/g, ''))}?text=${encodeURIComponent(`Bonjour ${c.full_name} 👋\nC'est ${C.BRAND}.`)}">${waIcon} Écrire sur WhatsApp</a>
+    ${ords.length ? `<div class="label">Ses commandes</div>${ords.slice(0, 5).map(o => `<div class="linkrow"><span>N° ${esc(o.id)} · ${dateCourte(o.created_at)}</span><span class="st st-${STATUS[o.status] ? o.status : 'nouvelle'}">${STATUS[o.status] || 'Reçue'}</span></div>`).join('')}` : ''}
+    ${c.is_admin ? '' : `
+    <div class="label">Changer son mot de passe</div>
+    <form id="cPw" novalidate style="display:flex;gap:8px"><input class="input" name="pw" placeholder="Nouveau mot de passe (6+)" minlength="6" maxlength="72" style="flex:1"><button class="btn pri" type="submit" style="flex:none">OK</button></form>
+    <p style="color:var(--muted);font-size:12px;margin:6px 0 0">Communiquez-le ensuite au client sur WhatsApp.</p>
+    <div class="label">Gestion du compte</div>
+    <button class="btn ghost" style="width:100%" id="cBlock">${c.blocked ? '✅ Débloquer ce client' : '⛔ Bloquer ce client'}</button>
+    <button class="btn ghost" style="width:100%;margin-top:10px;color:#8E1F1F" id="cDel">🗑️ Supprimer ce compte</button>
+    <p style="color:var(--muted);font-size:12px;margin:6px 0 0">La suppression est définitive. Ses commandes restent dans votre historique.</p>`}
+    <button class="btn ghost" style="width:100%;margin-top:14px" id="cClose">Fermer</button>`);
+  $('#cClose').onclick = closeSheet;
+  if (c.is_admin) return;
+  $('#cPw').onsubmit = async e => { e.preventDefault(); const pw = e.target.pw.value; if (pw.length < 6) { toast('6 caractères minimum'); return; }
+    if (await adminAction('reset_password', c, { password: pw })) { e.target.reset(); toast('Mot de passe changé. Envoyez-le au client.'); } };
+  $('#cBlock').onclick = async () => { if (await adminAction(c.blocked ? 'unblock' : 'block', c)) { c.blocked = !c.blocked; toast(c.blocked ? 'Client bloqué' : 'Client débloqué'); openClient(c.id); route(true); } };
+  $('#cDel').onclick = async () => {
+    if (!delArmed) { delArmed = true; $('#cDel').textContent = 'Confirmer la suppression définitive'; $('#cDel').style.background = '#FDECEC'; setTimeout(() => { delArmed = false; const b = $('#cDel'); if (b) { b.textContent = '🗑️ Supprimer ce compte'; b.style.background = ''; } }, 4000); return; }
+    if (await adminAction('delete_client', c)) { clients = clients.filter(x => x.id !== c.id); closeSheet(); toast('Compte supprimé'); route(true); }
+  };
 }
 async function loadAdmin() {
   const { data } = await sb.from('orders').select('*').order('created_at', { ascending: false }).limit(300);
@@ -525,7 +584,7 @@ function route(keepScroll) {
   else if (h === 'besoins') { html = vBesoins(); tab = 'besoins'; }
   else if (h === 'liste') { html = vListe(); tab = 'liste'; }
   else if (h === 'compte') { html = vCompte(); tab = 'compte'; if (me && !ordersCache && lastRoute !== h) loadMyOrders(); }
-  else if (h === 'admin') { html = vAdmin(); tab = 'compte'; if (me?.profile?.is_admin && lastRoute !== h) loadAdmin(); }
+  else if (h === 'admin') { html = vAdmin(); tab = 'compte'; if (me?.profile?.is_admin && lastRoute !== h) { loadAdmin(); if (adminTab === 'clients') loadClients(); } }
   else html = vHome();
   const same = lastRoute === h;
   app.innerHTML = `<div class="view"${same ? ' style="animation:none"' : ''}>${html}</div>`;
@@ -621,10 +680,14 @@ document.addEventListener('click', async e => {
   const eye = e.target.closest('[data-eye]');
   if (eye) { const i = eye.parentElement.querySelector('input'); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; eye.textContent = show ? 'Masquer' : 'Afficher'; return; }
   const ta = e.target.closest('[data-tab-auth]'); if (ta) { authTab = ta.dataset.tabAuth; route(true); return; }
-  if (e.target.closest('#logoutBtn')) { await sb.auth.signOut(); me = null; ordersCache = null; adminOrders = null; toast('Vous êtes déconnecté.'); route(true); return; }
+  if (e.target.closest('#logoutBtn')) { await sb.auth.signOut(); me = null; ordersCache = null; adminOrders = null; clients = null; toast('Vous êtes déconnecté.'); route(true); return; }
   const ro = e.target.closest('[data-reorder]');
   if (ro) { JSON.parse(ro.dataset.reorder).forEach(([id, v, q]) => byId[id] && addToCart(id, v, q)); toast('Produits ajoutés au panier'); location.hash = 'liste'; return; }
   const fl = e.target.closest('[data-af]'); if (fl) { adminFilter = fl.dataset.af; route(true); return; }
+  const at = e.target.closest('[data-atab]'); if (at) { adminTab = at.dataset.atab; route(true); if (adminTab === 'clients' && !clients) loadClients(); return; }
+  const cf = e.target.closest('[data-cf]'); if (cf) { clientFilter = cf.dataset.cf; route(true); return; }
+  const cl = e.target.closest('[data-client]'); if (cl) { openClient(cl.dataset.client); return; }
+  if (e.target.closest('#refreshClients')) { clients = null; route(true); loadClients(); loadAdmin(); return; }
   if (e.target.closest('#refreshAdmin')) { adminOrders = null; route(true); loadAdmin(); }
 });
 document.addEventListener('change', async e => {
@@ -649,6 +712,7 @@ function openSearch() { $('#overlay').classList.add('open'); $('#q').value = '';
 function closeSearch() { $('#overlay').classList.remove('open'); }
 $('#searchBtn').onclick = openSearch; $('#closeSearch').onclick = closeSearch;
 $('#q').addEventListener('input', e => renderSearch(e.target.value));
+document.addEventListener('input', e => { if (e.target.id === 'clientSearch') { clientQ = e.target.value; const pos = e.target.selectionStart; route(true); const i = $('#clientSearch'); if (i) { i.focus(); try { i.setSelectionRange(pos, pos); } catch {} } } });
 function renderSearch(q) {
   const n = norm(q.trim()), res = $('#res');
   if (!n) {
@@ -670,6 +734,6 @@ route();
 checkBackend().then(() => {
   if (/^#(compte|admin|liste)/.test(location.hash) || me) route(true);
   if (me && location.hash === '#compte' && !ordersCache) loadMyOrders();
-  if (me?.profile?.is_admin && location.hash === '#admin' && !adminOrders) loadAdmin();
+  if (me?.profile?.is_admin && location.hash === '#admin' && !adminOrders) { loadAdmin(); if (adminTab === 'clients') loadClients(); }
 });
 })();
