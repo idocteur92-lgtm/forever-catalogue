@@ -1,8 +1,8 @@
-// Réglages de l'application — Santé Bio Énergie
+// Réglages de l'application — Objectif Santé Durable
 window.CONFIG = {
   WHATSAPP: '22770290981',               // numéro qui reçoit les commandes (sans + ni espaces)
   WHATSAPP_DISPLAY: '+227 70 29 09 81',
-  BRAND: 'Santé Bio Énergie',
+  BRAND: 'Objectif Santé Durable',
   CITY: 'Niamey',
   // Adresse publique du site, remplie à la mise en ligne (ex. https://forever-sbe.vercel.app)
   // Sert aux liens « Voir le produit » avec photo dans WhatsApp.

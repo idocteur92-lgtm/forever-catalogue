@@ -1,4 +1,4 @@
-# Catalogue Forever · Santé Bio Énergie
+# Objectif Santé Durable · Catalogue Forever
 
 Application web (mobile) du catalogue Forever Living 2025 : produits, prix en F CFA, conseils par besoin,
 commande sur WhatsApp, comptes clients et espace administrateur (Supabase).

@@ -249,15 +249,16 @@ function vListe() {
 
 /* ---------- message WhatsApp ---------- */
 const LINE = '┈┈┈┈┈┈┈┈┈┈┈┈┈┈';
-function orderMessage(items, client, orderNo) {
+function orderMessage(items, client, orderNo, bonLink) {
   const total = items.reduce((a, it) => a + unitPrice(byId[it.id], it.v) * it.q, 0);
   const n = items.reduce((a, it) => a + it.q, 0);
   const lines = items.map((it, i) => {
     const p = byId[it.id], up = unitPrice(p, it.v);
     return [`*${i + 1}. ${p.name}*`, `    ${p.prices ? variantLabel(p, it.v) : 'Réf. ' + p.code + ' · ' + p.size}`, `    ${it.q} × ${fmt(up)} F = *${fmt(up * it.q)} F*`].join('\n');
   });
-  const link = items.length === 1 ? productLink(byId[items[0].id]) : '';
+  const link = !bonLink && items.length === 1 ? productLink(byId[items[0].id]) : '';
   const parts = [
+    ...(bonLink ? [`🧾 *Bon de commande :* ${bonLink}`, ''] : []),
     `🌿 *NOUVELLE COMMANDE FOREVER*${orderNo ? `  ·  N° ${orderNo}` : ''}`,
     `_${C.BRAND} · ${C.CITY}_`,
     LINE,
@@ -349,7 +350,7 @@ function openCheckout(items, fromCart) {
       <label class="field"><span>Quartier / ville</span><input class="input" name="quartier" autocomplete="address-level2" placeholder="Ex. Plateau, Niamey" value="${esc(c.quartier || '')}"></label>
       <div class="field"><span>Réception</span><div class="seg"><button type="button" data-dl="livraison" class="${delivery==='livraison'?'on':''}">🚚 Livraison</button><button type="button" data-dl="retrait" class="${delivery==='retrait'?'on':''}">🏬 Retrait</button></div></div>
       <label class="field"><span>Note <i>(facultatif)</i></span><textarea class="input" name="note" placeholder="Heure de livraison, point de repère…"></textarea></label>
-      <button class="btn wa" style="width:100%" type="submit" id="coSubmit">${waIcon} Préparer le message WhatsApp</button>
+      <button class="btn wa" style="width:100%" type="submit" id="coSubmit">${waIcon} Envoyer la commande sur WhatsApp</button>
       ${me ? `<p style="text-align:center;color:var(--muted);font-size:12.5px;margin:10px 0 0">La commande sera aussi enregistrée dans votre compte.</p>` : backend === 'on' ? `<p style="text-align:center;color:var(--muted);font-size:12.5px;margin:10px 0 0"><a href="#compte" style="color:var(--green-3);font-weight:800">Connectez-vous</a> pour retrouver cette commande dans votre compte.</p>` : ''}
     </form>`);
   sheet.querySelectorAll('[data-dl]').forEach(b => b.onclick = () => { delivery = b.dataset.dl; sheet.querySelectorAll('[data-dl]').forEach(x => x.classList.toggle('on', x === b)); });
@@ -362,48 +363,39 @@ async function submitCheckout(e) {
   if (client.name.length < 2) { err.innerHTML = '<div class="err">Indiquez votre nom.</div>'; f.name.focus(); return; }
   if (!client.phone) { err.innerHTML = '<div class="err">Numéro de téléphone invalide.</div>'; f.phone.focus(); return; }
   store.set('fl-client', { name: client.name, phone: client.phone, quartier: client.quartier, delivery });
-  const btn = $('#coSubmit'); btn.disabled = true; btn.textContent = 'Préparation…';
-  let orderNo = null;
+  const btn = $('#coSubmit'); btn.disabled = true; btn.innerHTML = 'Préparation du bon de commande…';
   const items = checkoutItems.map(it => ({ id: it.id, v: it.v, q: it.q, name: byId[it.id].name, label: variantLabel(byId[it.id], it.v), price: unitPrice(byId[it.id], it.v), img: imgOf(byId[it.id], it.v) }));
   const total = items.reduce((a, it) => a + it.price * it.q, 0);
-  if (me && backend === 'on') {
-    const { data, error } = await sb.from('orders').insert({ customer_name: client.name, phone: client.phone, quartier: client.quartier, delivery, note: client.note, items, total }).select('id').single();
+  let orderNo = null, bonLink = '';
+  const online = !!(sb && backend === 'on');
+  const bonId = crypto.randomUUID ? crypto.randomUUID() : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+  let bonUrl = online ? `${C.SUPABASE_URL}/storage/v1/object/public/bons/${bonId}.jpg` : '';
+  // 1) enregistrement de la commande (compte client) ou historique du téléphone
+  if (me && online) {
+    const { data, error } = await sb.from('orders').insert({ customer_name: client.name, phone: client.phone, quartier: client.quartier, delivery, note: client.note, items, total, bon_url: bonUrl }).select('id').single();
     if (!error && data) orderNo = data.id;
-  } else {
-    const hist = store.get('fl-orders', []); hist.unshift({ id: 'L' + Date.now().toString(36).toUpperCase().slice(-5), created_at: new Date().toISOString(), items, total, status: 'nouvelle' }); store.set('fl-orders', hist.slice(0, 30));
   }
-  const { text } = orderMessage(checkoutItems, client, orderNo);
+  // 2) image du bon de commande, mise en ligne pour apparaître en grande photo dans WhatsApp
+  try {
+    const blob = await Promise.race([buildOrderImage(checkoutItems, client, orderNo), new Promise(r => setTimeout(() => r(null), 8000))]);
+    if (blob && online) {
+      const { error } = await sb.storage.from('bons').upload(`${bonId}.jpg`, blob, { contentType: 'image/jpeg', upsert: false });
+      if (!error) bonLink = siteUrl() ? `${siteUrl()}/b/${bonId}` : bonUrl;
+    }
+  } catch {}
+  if (!bonLink) bonUrl = '';
+  if (!me) { const hist = store.get('fl-orders', []); hist.unshift({ id: 'L' + Date.now().toString(36).toUpperCase().slice(-5), created_at: new Date().toISOString(), items, total, status: 'nouvelle', bon_url: bonUrl }); store.set('fl-orders', hist.slice(0, 30)); }
+  // 3) WhatsApp s'ouvre directement sur le numéro, avec le bon en photo et le détail en texte
+  const { text } = orderMessage(checkoutItems, client, orderNo, bonLink);
   const url = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
   if (checkoutFromCart) { cart = {}; saveCart(); }
-  const shareItems = checkoutItems.slice();
-  openSheet(`<div class="ok-box"><div class="ic">${bigCheck}</div><h2>Commande prête${orderNo ? ` · N° ${orderNo}` : ''}</h2>
-    <p class="sub" style="margin:6px 0 12px">Votre bon de commande avec les photos des produits :</p></div>
-    <div id="bonWrap" style="background:var(--sand);border-radius:16px;min-height:120px;display:grid;place-items:center;margin-bottom:14px;overflow:hidden"><span style="color:var(--muted);font-weight:700;font-size:13px">Création de l'image…</span></div>
-    <button class="btn wa" style="width:100%;height:54px;font-size:16px;display:none" id="sharePhoto">${waIcon} Envoyer avec les photos</button>
-    <p id="shareHint" style="display:none;text-align:center;color:var(--muted);font-size:12.5px;margin:8px 0 0">Choisissez <b>WhatsApp</b>, puis <b>${esc(C.BRAND)}</b> (${WA_DISPLAY}).</p>
-    <a class="btn ${'pri'}" style="width:100%;margin-top:12px" href="${url}" target="_blank" rel="noopener" id="waGo">${waIcon} Envoyer le message WhatsApp</a>
-    <details style="margin:14px 0 4px"><summary style="font-weight:800;color:var(--green-3);font-size:13.5px;cursor:pointer">Voir le message</summary>
-      <pre style="white-space:pre-wrap;font:500 13px/1.5 Manrope,sans-serif;background:#E7F6EC;border-radius:14px;padding:12px;margin:10px 0 0">${esc(text)}</pre></details>
-    <button class="btn ghost" style="width:100%;margin-top:10px" id="okClose">${me ? 'Voir mes commandes' : 'Continuer mes achats'}</button>`);
+  openSheet(`<div class="ok-box"><div class="ic">${bigCheck}</div><h2>Commande envoyée vers WhatsApp${orderNo ? ` · N° ${orderNo}` : ''}</h2>
+    <p class="sub" style="margin:6px 0 16px">WhatsApp s'ouvre avec votre bon de commande en photo et le détail en texte. Il ne reste qu'à appuyer sur <b>Envoyer</b>.</p></div>
+    <a class="btn wa" style="width:100%;height:54px;font-size:16px" href="${url}" target="_blank" rel="noopener" id="waGo">${waIcon} WhatsApp ne s'est pas ouvert ? Appuyez ici</a>
+    ${bonUrl ? `<img src="${bonUrl}" alt="Bon de commande" style="width:100%;border-radius:16px;margin-top:14px;display:block">` : ''}
+    <button class="btn ghost" style="width:100%;margin-top:12px" id="okClose">${me ? 'Voir mes commandes' : 'Continuer mes achats'}</button>`);
   $('#okClose').onclick = () => { closeSheet(); if (me) location.hash = 'compte'; else if (checkoutFromCart) location.hash = 'catalogue'; };
-  buildOrderImage(shareItems, client, orderNo).then(blob => {
-    const wrap = $('#bonWrap'); if (!wrap) return;
-    if (!blob) { wrap.style.display = 'none'; return; }
-    const objUrl = URL.createObjectURL(blob);
-    wrap.innerHTML = `<img src="${objUrl}" alt="Bon de commande" style="width:100%;display:block">`;
-    const file = new File([blob], `commande-forever${orderNo ? '-' + orderNo : ''}.jpg`, { type: 'image/jpeg' });
-    let can = false; try { can = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch {}
-    if (can) {
-      $('#sharePhoto').style.display = 'flex'; $('#shareHint').style.display = 'block';
-      $('#waGo').className = 'btn ghost'; $('#waGo').innerHTML = `${waIcon} Envoyer seulement le texte`;
-      $('#sharePhoto').onclick = async () => {
-        try { await navigator.share({ files: [file], text }); }
-        catch (er) { if (er && er.name !== 'AbortError') toast('Partage impossible : utilisez le bouton texte.'); }
-      };
-    } else {
-      wrap.insertAdjacentHTML('afterend', `<p style="text-align:center;color:var(--muted);font-size:12.5px;margin:-6px 0 12px">Astuce : appuyez longuement sur l'image pour l'enregistrer, puis joignez-la à votre message WhatsApp.</p>`);
-    }
-  }).catch(() => { const w = $('#bonWrap'); if (w) w.style.display = 'none'; });
+  try { window.location.href = url; } catch {}
   if (checkoutFromCart && location.hash === '#liste') route();
 }
 
@@ -418,6 +410,7 @@ function orderCard(o, adminView) {
     ${o.status !== 'annulee' ? `<div class="steps">${[1,2,3,4].map(i => `<i class="${STEP[o.status] >= i ? 'on' : ''}"></i>`).join('')}</div>` : ''}
     ${adminView ? `<div style="display:flex;gap:6px;margin:10px 0 0;overflow-x:auto">${items.map(it => byId[it.id] ? `<a href="#produit-${esc(it.id)}" style="flex:none;width:58px;height:58px;border-radius:12px;background:var(--sand);overflow:hidden"><img src="img/${esc(byId[it.id].img)}.jpg" alt="" style="width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;padding:3px"></a>` : '').join('')}</div>` : ''}
     <ul>${items.map(it => `<li><span>${it.q} × ${esc(it.name)}${it.label ? ` <small style="color:var(--muted)">(${esc(it.label)})</small>` : ''}</span><span class="tnum">${fmt(it.price * it.q)} F</span></li>`).join('')}</ul>
+    ${adminView && o.bon_url ? `<a href="${esc(o.bon_url)}" target="_blank" rel="noopener" style="display:inline-block;font-size:13px;font-weight:800;color:var(--green-3);margin:0 0 10px">🧾 Voir le bon de commande</a>` : ''}
     ${o.note && adminView ? `<p style="font-size:13px;margin:0 0 10px;color:var(--muted)">📝 ${esc(o.note)}</p>` : ''}
     <div class="ft"><b class="tnum">${fmt(o.total)} F CFA</b>
       ${adminView ? `<span style="display:flex;gap:6px"><a class="btn wa mini" target="_blank" rel="noopener" href="https://wa.me/${esc(o.phone)}?text=${encodeURIComponent(`Bonjour ${o.customer_name} 👋\nC'est ${C.BRAND}, au sujet de votre commande N° ${o.id} (${fmt(o.total)} F CFA).`)}">${waIcon}</a>
@@ -524,7 +517,7 @@ function route(keepScroll) {
   document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
   $('#backBtn').hidden = !/^(produit-|besoin-|admin)/.test(h);
   const p = h.startsWith('produit-') && byId[h.slice(8)];
-  document.title = p ? `${p.name} · ${fmt(p.price)} F CFA · Forever` : 'Forever · Catalogue Santé Bio Énergie';
+  document.title = p ? `${p.name} · ${fmt(p.price)} F CFA · Forever` : 'Objectif Santé Durable · Catalogue Forever';
   bindView(h, p);
   upgradeImages(app);
   if (!same && !keepScroll) window.scrollTo(0, h.startsWith('produit-') ? 0 : (scrollMem[h] || 0));
