@@ -60,9 +60,8 @@ pour l'activité « Santé Bio Énergie » d'Ange, rebaptisée **Objectif Santé
   - `orders` (`user_id` nullable pour les visiteurs, `bon_url`, contraintes CHECK contre l'injection HTML)
   - `signup_attempts`, `order_attempts` (anti-abus / limitation)
 - RLS activé partout ; droits limités par colonne (un client ne peut pas se donner `is_admin` ni changer le numéro WhatsApp de réception).
-- Edge function **`compte`** (v3), actions : `signup`, `guest_order`, `list_clients`, `reset_password`, `block`, `unblock`, `delete_client`.
-  ⚠️ Son code source n'est **pas** dans le dépôt : il est seulement déployé sur Supabase. Le récupérer (Supabase CLI/MCP) et l'ajouter
-  dans `supabase/functions/compte/` serait une bonne amélioration.
+- Edge function **`compte`** (v3, `verify_jwt: false`), actions : `signup`, `guest_order`, `list_clients`, `reset_password`, `block`, `unblock`, `delete_client`.
+  Code source : `supabase/functions/compte/index.ts`. Base complète (état final des 5 migrations) : `supabase/schema.sql`.
 - Admin = le compte du numéro **22770290981**. Espace admin dans l'app : commandes (y compris visiteurs) et onglet **Clients**
   (bloquer / débloquer, supprimer, réinitialiser le mot de passe).
 - Ne jamais écrire de mot de passe dans le dépôt ni dans ce fichier. Ange doit changer le mot de passe admin temporaire s'il ne l'a pas encore fait.
@@ -90,9 +89,16 @@ Deux vidéos de 60 s ont été livrées et validées : **16:9 (1920×1080)** et 
 - ⚠️ Les fichiers sources de la vidéo (pages `video3d.html` / `video3d_v.html`, script de rendu, captures, sons) étaient dans l'espace de travail
   de la conversation précédente et **ne sont pas dans le dépôt**. Les vidéos finales ont été envoyées à Ange dans cette conversation.
 
+## Skill « catalogue-forever-whatsapp » (dossier `skills/`)
+
+Skill tout-en-un pour refaire cette plateforme pour un autre distributeur Forever (son nom, logo, couleurs, numéro, pays),
+avec connexions GitHub / Vercel / Supabase guidées. Le modèle `skills/catalogue-forever-whatsapp/template/` est **fabriqué**
+depuis l'application : après toute modification de l'app, lancer `python3 skills/build_skill.py` (refabrique le modèle,
+vérifie qu'aucune donnée personnelle n'y reste, crée `skills/dist/catalogue-forever-whatsapp.skill` et `.zip`).
+Les dossiers `video/`, `supabase/`, `skills/` ne sont pas publiés sur le site (`.vercelignore`).
+
 ## Idées de suite (à proposer, pas à faire sans accord)
 
-- Ajouter le code de l'edge function `compte` et les migrations SQL au dépôt.
 - Activer la double authentification sur GitHub et Vercel.
 - Tester une commande visiteur et l'onglet Clients sur le site en ligne.
 
