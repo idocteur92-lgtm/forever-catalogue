@@ -1,0 +1,2527 @@
+{
+ "home": {
+  "h": 3149,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "section.hero",
+    "t": "✦ NOUVEAUX TARIFS 2025 L'Alo",
+    "x": 16,
+    "y": 6,
+    "w": 358,
+    "h": 384
+   },
+   {
+    "c": "h1.",
+    "t": "L'Aloe vera au service de vo",
+    "x": 36,
+    "y": 67,
+    "w": 294,
+    "h": 61
+   },
+   {
+    "c": "div.sec",
+    "t": "Je cherche un produit pour… ",
+    "x": 16,
+    "y": 416,
+    "w": 358,
+    "h": 93
+   },
+   {
+    "c": "h2.",
+    "t": "Je cherche un produit pour…",
+    "x": 16,
+    "y": 416,
+    "w": 288,
+    "h": 51
+   },
+   {
+    "c": "a.need",
+    "t": "⚖️ Surpoids & obésité",
+    "x": 0,
+    "y": 523,
+    "w": 198,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🌿 Digestion & transit",
+    "x": 0,
+    "y": 589,
+    "w": 198,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🚹 Prostate & confort urinai",
+    "x": 208,
+    "y": 523,
+    "w": 250,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🦴 Articulations & douleurs",
+    "x": 208,
+    "y": 589,
+    "w": 250,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🛡️ Immunité & défenses",
+    "x": 468,
+    "y": 523,
+    "w": 213,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "⚡ Fatigue & énergie",
+    "x": 468,
+    "y": 589,
+    "w": 213,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🩸 Glycémie (sucre dans le s",
+    "x": 690,
+    "y": 523,
+    "w": 273,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "❤️ Cœur, tension & circulati",
+    "x": 690,
+    "y": 589,
+    "w": 273,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🚺 Femme : hormones & ménopa",
+    "x": 973,
+    "y": 523,
+    "w": 293,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🔥 Vitalité sexuelle & ferti",
+    "x": 973,
+    "y": 589,
+    "w": 293,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "💦 Peau sèche & déshydratée",
+    "x": 1276,
+    "y": 523,
+    "w": 249,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "✨ Boutons, acné & taches",
+    "x": 1276,
+    "y": 589,
+    "w": 249,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🧠 Mémoire & concentration",
+    "x": 1535,
+    "y": 523,
+    "w": 241,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "⏳ Rides & anti-âge",
+    "x": 1535,
+    "y": 589,
+    "w": 241,
+    "h": 56
+   },
+   {
+    "c": "div.sec",
+    "t": "Nos catégories Tout le catal",
+    "x": 16,
+    "y": 679,
+    "w": 358,
+    "h": 32
+   },
+   {
+    "c": "h2.",
+    "t": "Nos catégories",
+    "x": 16,
+    "y": 685,
+    "w": 151,
+    "h": 25
+   },
+   {
+    "c": "div.sec",
+    "t": "Les incontournables  Les pro",
+    "x": 16,
+    "y": 1448,
+    "w": 358,
+    "h": 48
+   },
+   {
+    "c": "h2.",
+    "t": "Les incontournables",
+    "x": 16,
+    "y": 1448,
+    "w": 210,
+    "h": 25
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #015 / #716 ·",
+    "x": 0,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #034 · Boisso",
+    "x": 168,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #196 · Boisso",
+    "x": 336,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #439 · Complé",
+    "x": 504,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #374 · Complé",
+    "x": 672,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #048 · Complé",
+    "x": 840,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #610 · Complé",
+    "x": 1008,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #376 · Sport ",
+    "x": 1176,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #215 · Sport ",
+    "x": 1344,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #504 · Sport ",
+    "x": 1512,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #463 · Minceu",
+    "x": 1680,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #547 / #548 ·",
+    "x": 1848,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #027 · Ruche ",
+    "x": 2016,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #051 · Ruche ",
+    "x": 2184,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #061 · Corps ",
+    "x": 2352,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #040 · Hygièn",
+    "x": 2520,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #028 · Hygièn",
+    "x": 2688,
+    "y": 1510,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "div.sec",
+    "t": "Programmes minceur",
+    "x": 16,
+    "y": 1837,
+    "w": 358,
+    "h": 25
+   },
+   {
+    "c": "h2.",
+    "t": "Programmes minceur",
+    "x": 16,
+    "y": 1837,
+    "w": 228,
+    "h": 25
+   },
+   {
+    "c": "div.sec",
+    "t": "Comment commander ?",
+    "x": 16,
+    "y": 2094,
+    "w": 358,
+    "h": 25
+   },
+   {
+    "c": "h2.",
+    "t": "Comment commander ?",
+    "x": 16,
+    "y": 2094,
+    "w": 249,
+    "h": 25
+   },
+   {
+    "c": "div.panel",
+    "t": "🛍️ Ajoutez vos produits au ",
+    "x": 16,
+    "y": 2131,
+    "w": 358,
+    "h": 405
+   },
+   {
+    "c": "a.btn.wa",
+    "t": "Demander conseil sur WhatsAp",
+    "x": 16,
+    "y": 2675,
+    "w": 358,
+    "h": 48
+   }
+  ]
+ },
+ "catalogue": {
+  "h": 12573,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "h1.",
+    "t": "Tous les produits",
+    "x": 16,
+    "y": 6,
+    "w": 358,
+    "h": 33
+   },
+   {
+    "c": "a.chip.on",
+    "t": "Tous",
+    "x": 16,
+    "y": 99,
+    "w": 59,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Boissons",
+    "x": 83,
+    "y": 99,
+    "w": 87,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Compléments",
+    "x": 179,
+    "y": 99,
+    "w": 120,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Sport",
+    "x": 307,
+    "y": 99,
+    "w": 65,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Minceur",
+    "x": 379,
+    "y": 99,
+    "w": 81,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Programmes",
+    "x": 469,
+    "y": 99,
+    "w": 111,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Ruche",
+    "x": 588,
+    "y": 99,
+    "w": 70,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Visage",
+    "x": 665,
+    "y": 99,
+    "w": 72,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Corps",
+    "x": 745,
+    "y": 99,
+    "w": 67,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Hygiène",
+    "x": 820,
+    "y": 99,
+    "w": 82,
+    "h": 38
+   },
+   {
+    "c": "a.chip",
+    "t": "Parfums",
+    "x": 910,
+    "y": 99,
+    "w": 83,
+    "h": 38
+   },
+   {
+    "c": "div.grid",
+    "t": "INCONTOURNABLE #015 / #716 ·",
+    "x": 16,
+    "y": 197,
+    "w": 358,
+    "h": 12099
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #015 / #716 ·",
+    "x": 16,
+    "y": 197,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #034 · Boisso",
+    "x": 201,
+    "y": 197,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#077 · Boissons Forever Aloe",
+    "x": 16,
+    "y": 501,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #196 · Boisso",
+    "x": 201,
+    "y": 501,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#721 · Boissons FAB Forever ",
+    "x": 16,
+    "y": 805,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#200 · Boissons Infusion Alo",
+    "x": 201,
+    "y": 805,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#622 · Compléments Forever F",
+    "x": 16,
+    "y": 1109,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#068 · Compléments Forever F",
+    "x": 201,
+    "y": 1109,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#624 · Compléments Forever i",
+    "x": 16,
+    "y": 1413,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #439 · Complé",
+    "x": 201,
+    "y": 1413,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#621 · Compléments Forever S",
+    "x": 16,
+    "y": 1700,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#188 · Compléments Forever B",
+    "x": 201,
+    "y": 1700,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#037 · Compléments Forever N",
+    "x": 16,
+    "y": 1986,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#072 · Compléments Forever L",
+    "x": 201,
+    "y": 1986,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#206 · Compléments Forever C",
+    "x": 16,
+    "y": 2273,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#464 · Compléments Forever F",
+    "x": 201,
+    "y": 2273,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #374 · Complé",
+    "x": 16,
+    "y": 2559,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#375 · Compléments Vitolize ",
+    "x": 201,
+    "y": 2559,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#354 · Compléments Forever K",
+    "x": 16,
+    "y": 2845,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #048 · Complé",
+    "x": 201,
+    "y": 2845,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#566 · Compléments Forever I",
+    "x": 16,
+    "y": 3132,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#355 · Compléments Forever I",
+    "x": 201,
+    "y": 3132,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #610 · Complé",
+    "x": 16,
+    "y": 3436,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#065 · Compléments Forever G",
+    "x": 201,
+    "y": 3436,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#312 · Sport Forever CardioH",
+    "x": 16,
+    "y": 3722,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #376 · Sport ",
+    "x": 201,
+    "y": 3722,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #215 · Sport ",
+    "x": 16,
+    "y": 4026,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#264 · Sport Forever Active ",
+    "x": 201,
+    "y": 4026,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#551 · Sport Forever Move 55",
+    "x": 16,
+    "y": 4313,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#656 · Sport Forever Plant P",
+    "x": 201,
+    "y": 4313,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #504 · Sport ",
+    "x": 16,
+    "y": 4599,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#564 · Sport Aloe Cooling Lo",
+    "x": 201,
+    "y": 4599,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#064 · Sport Aloe Heat Lotio",
+    "x": 16,
+    "y": 4885,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#205 · Sport Aloe MSM Gel 20",
+    "x": 201,
+    "y": 4885,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #463 · Minceu",
+    "x": 16,
+    "y": 5172,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#470 / #471 · Minceur Foreve",
+    "x": 201,
+    "y": 5172,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#289 · Minceur Forever Lean ",
+    "x": 16,
+    "y": 5458,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#520 · Minceur Forever Fast ",
+    "x": 201,
+    "y": 5458,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#071 · Minceur Forever Garci",
+    "x": 16,
+    "y": 5745,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #547 / #548 ·",
+    "x": 201,
+    "y": 5745,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#659 · Programmes Programme ",
+    "x": 16,
+    "y": 6049,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#654 · Programmes DX4 InnerP",
+    "x": 201,
+    "y": 6049,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#528 · Programmes Programme ",
+    "x": 16,
+    "y": 6335,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#456 à #459 · Programmes Pro",
+    "x": 201,
+    "y": 6335,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#634 / #635 · Programmes Sta",
+    "x": 16,
+    "y": 6622,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#036 · Ruche Forever Royal J",
+    "x": 201,
+    "y": 6622,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #027 · Ruche ",
+    "x": 16,
+    "y": 6926,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#026 · Ruche Forever Bee Pol",
+    "x": 201,
+    "y": 6926,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#207 · Ruche Forever Bee Hon",
+    "x": 16,
+    "y": 7212,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #051 · Ruche ",
+    "x": 201,
+    "y": 7212,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#554 · Visage Démaquillant h",
+    "x": 16,
+    "y": 7498,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#558 · Visage Crème réparatr",
+    "x": 201,
+    "y": 7498,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#556 · Visage Complexe raffe",
+    "x": 16,
+    "y": 7802,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#555 · Visage Sérum raffermi",
+    "x": 201,
+    "y": 7802,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#559 · Visage Soin exfoliant",
+    "x": 16,
+    "y": 8106,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#561 · Visage Crème contour ",
+    "x": 201,
+    "y": 8106,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#612 · Visage Activateur Alo",
+    "x": 16,
+    "y": 8410,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#618 · Visage Sérum hydratan",
+    "x": 201,
+    "y": 8410,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#560 · Visage Lotion tonifia",
+    "x": 16,
+    "y": 8697,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#651 · Visage Soin hydratant",
+    "x": 201,
+    "y": 8697,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#664 · Visage Masque Aloe Bi",
+    "x": 16,
+    "y": 9001,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#069 · Visage R3 Factor 28 5",
+    "x": 201,
+    "y": 9001,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#187 · Visage Forever Alpha-",
+    "x": 16,
+    "y": 9305,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#557 · Visage Crème de jour ",
+    "x": 201,
+    "y": 9305,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #061 · Corps ",
+    "x": 16,
+    "y": 9608,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#063 · Corps Aloe Moisturizi",
+    "x": 201,
+    "y": 9608,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#238 · Corps Forever Aloe Sc",
+    "x": 16,
+    "y": 9912,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#284 · Corps Savon Aloe Avoc",
+    "x": 201,
+    "y": 9912,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#646 · Corps Aloe Body Wash ",
+    "x": 16,
+    "y": 10216,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#647 · Corps Aloe Body Lotio",
+    "x": 201,
+    "y": 10216,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#640 · Corps Shampoing Aloe-",
+    "x": 16,
+    "y": 10503,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#641 · Corps Après-shampoing",
+    "x": 201,
+    "y": 10503,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#022 · Corps Aloe Lips 3 500",
+    "x": 16,
+    "y": 10807,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #040 · Hygièn",
+    "x": 201,
+    "y": 10807,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#067 · Hygiène Stick déodora",
+    "x": 16,
+    "y": 11093,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#070 · Hygiène Gentleman's P",
+    "x": 201,
+    "y": 11093,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#318 · Hygiène Forever Hand ",
+    "x": 16,
+    "y": 11397,
+    "w": 173,
+    "h": 292
+   }
+  ]
+ },
+ "besoins": {
+  "h": 3167,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "h1.",
+    "t": "Par besoin",
+    "x": 16,
+    "y": 6,
+    "w": 358,
+    "h": 33
+   },
+   {
+    "c": "div.sec",
+    "t": "Santé & bien-être",
+    "x": 16,
+    "y": 105,
+    "w": 358,
+    "h": 21
+   },
+   {
+    "c": "h2.",
+    "t": "Santé & bien-être",
+    "x": 16,
+    "y": 105,
+    "w": 147,
+    "h": 21
+   },
+   {
+    "c": "a.need",
+    "t": "🌿 Digestion & transit Ballo",
+    "x": 16,
+    "y": 138,
+    "w": 174,
+    "h": 171
+   },
+   {
+    "c": "a.need",
+    "t": "🛡️ Immunité & défenses Renf",
+    "x": 200,
+    "y": 138,
+    "w": 174,
+    "h": 171
+   },
+   {
+    "c": "a.need",
+    "t": "⚡ Fatigue & énergie Coup de ",
+    "x": 16,
+    "y": 318,
+    "w": 174,
+    "h": 171
+   },
+   {
+    "c": "a.need",
+    "t": "⚖️ Surpoids & obésité Perte ",
+    "x": 200,
+    "y": 318,
+    "w": 174,
+    "h": 171
+   },
+   {
+    "c": "a.need",
+    "t": "🩸 Glycémie (sucre dans le s",
+    "x": 16,
+    "y": 499,
+    "w": 174,
+    "h": 208
+   },
+   {
+    "c": "a.need",
+    "t": "❤️ Cœur, tension & circulati",
+    "x": 200,
+    "y": 499,
+    "w": 174,
+    "h": 208
+   },
+   {
+    "c": "a.need",
+    "t": "🦴 Articulations & douleurs ",
+    "x": 16,
+    "y": 717,
+    "w": 174,
+    "h": 208
+   },
+   {
+    "c": "a.need",
+    "t": "🚹 Prostate & confort urinai",
+    "x": 200,
+    "y": 717,
+    "w": 174,
+    "h": 208
+   },
+   {
+    "c": "a.need",
+    "t": "🚺 Femme : hormones & ménopa",
+    "x": 16,
+    "y": 934,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "🔥 Vitalité sexuelle & ferti",
+    "x": 200,
+    "y": 934,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "🧠 Mémoire & concentration É",
+    "x": 16,
+    "y": 1135,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "👁️ Yeux & vision Fatigue de",
+    "x": 200,
+    "y": 1135,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "💪 Os, dents & croissance Ca",
+    "x": 16,
+    "y": 1336,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "🔴 Anémie & globules rouges ",
+    "x": 200,
+    "y": 1336,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "🌙 Stress, humeur & sommeil ",
+    "x": 16,
+    "y": 1537,
+    "w": 174,
+    "h": 174
+   },
+   {
+    "c": "a.need",
+    "t": "🍯 Gorge, toux & rhume Saiso",
+    "x": 200,
+    "y": 1537,
+    "w": 174,
+    "h": 174
+   },
+   {
+    "c": "a.need",
+    "t": "💧 Détox & nettoyage Program",
+    "x": 16,
+    "y": 1721,
+    "w": 174,
+    "h": 187
+   },
+   {
+    "c": "a.need",
+    "t": "🏃 Sport & récupération Endu",
+    "x": 200,
+    "y": 1721,
+    "w": 174,
+    "h": 187
+   },
+   {
+    "c": "a.need",
+    "t": "🧒 Enfants Nutrition et défe",
+    "x": 16,
+    "y": 1919,
+    "w": 174,
+    "h": 154
+   },
+   {
+    "c": "div.sec",
+    "t": "Beauté & soins",
+    "x": 16,
+    "y": 2098,
+    "w": 358,
+    "h": 21
+   },
+   {
+    "c": "h2.",
+    "t": "Beauté & soins",
+    "x": 16,
+    "y": 2098,
+    "w": 124,
+    "h": 21
+   },
+   {
+    "c": "a.need",
+    "t": "💦 Peau sèche & déshydratée ",
+    "x": 16,
+    "y": 2131,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "✨ Boutons, acné & taches Por",
+    "x": 200,
+    "y": 2131,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "⏳ Rides & anti-âge Rides, re",
+    "x": 16,
+    "y": 2332,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "🩹 Brûlures, plaies & piqûre",
+    "x": 200,
+    "y": 2332,
+    "w": 174,
+    "h": 191
+   },
+   {
+    "c": "a.need",
+    "t": "💇 Cheveux & cuir chevelu Pe",
+    "x": 16,
+    "y": 2533,
+    "w": 174,
+    "h": 208
+   },
+   {
+    "c": "a.need",
+    "t": "🦷 Bouche, dents & haleine G",
+    "x": 200,
+    "y": 2533,
+    "w": 174,
+    "h": 208
+   }
+  ]
+ },
+ "fatigue": {
+  "h": 4086,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "h1.",
+    "t": "Fatigue & énergie",
+    "x": 104,
+    "y": 24,
+    "w": 252,
+    "h": 28
+   },
+   {
+    "c": "div.grid",
+    "t": "#721 · Boissons FAB Forever ",
+    "x": 16,
+    "y": 163,
+    "w": 358,
+    "h": 3244
+   },
+   {
+    "c": "article.card",
+    "t": "#721 · Boissons FAB Forever ",
+    "x": 16,
+    "y": 163,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #439 · Complé",
+    "x": 201,
+    "y": 163,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#037 · Compléments Forever N",
+    "x": 16,
+    "y": 467,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#456 à #459 · Programmes Pro",
+    "x": 201,
+    "y": 467,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#036 · Ruche Forever Royal J",
+    "x": 16,
+    "y": 753,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#026 · Ruche Forever Bee Pol",
+    "x": 201,
+    "y": 753,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#621 · Compléments Forever S",
+    "x": 16,
+    "y": 1040,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#188 · Compléments Forever B",
+    "x": 201,
+    "y": 1040,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #048 · Complé",
+    "x": 16,
+    "y": 1326,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#312 · Sport Forever CardioH",
+    "x": 201,
+    "y": 1326,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #215 · Sport ",
+    "x": 16,
+    "y": 1630,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #463 · Minceu",
+    "x": 201,
+    "y": 1630,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#207 · Ruche Forever Bee Hon",
+    "x": 16,
+    "y": 1917,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #015 / #716 ·",
+    "x": 201,
+    "y": 1917,
+    "w": 173,
+    "h": 274
+   },
+   {
+    "c": "article.card",
+    "t": "#077 · Boissons Forever Aloe",
+    "x": 16,
+    "y": 2203,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#622 · Compléments Forever F",
+    "x": 201,
+    "y": 2203,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#068 · Compléments Forever F",
+    "x": 16,
+    "y": 2507,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#072 · Compléments Forever L",
+    "x": 201,
+    "y": 2507,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#566 · Compléments Forever I",
+    "x": 16,
+    "y": 2811,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #504 · Sport ",
+    "x": 201,
+    "y": 2811,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "#520 · Minceur Forever Fast ",
+    "x": 16,
+    "y": 3115,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #034 · Boisso",
+    "x": 201,
+    "y": 3115,
+    "w": 173,
+    "h": 292
+   },
+   {
+    "c": "a.btn.ghost",
+    "t": "Demander un conseil personna",
+    "x": 16,
+    "y": 3421,
+    "w": 358,
+    "h": 48
+   },
+   {
+    "c": "div.sec",
+    "t": "Autres besoins",
+    "x": 16,
+    "y": 3495,
+    "w": 358,
+    "h": 21
+   },
+   {
+    "c": "h2.",
+    "t": "Autres besoins",
+    "x": 16,
+    "y": 3495,
+    "w": 126,
+    "h": 21
+   },
+   {
+    "c": "a.need",
+    "t": "🌿 Digestion & transit",
+    "x": 0,
+    "y": 3530,
+    "w": 213,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🛡️ Immunité & défenses",
+    "x": 0,
+    "y": 3596,
+    "w": 213,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "⚖️ Surpoids & obésité",
+    "x": 223,
+    "y": 3530,
+    "w": 273,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🩸 Glycémie (sucre dans le s",
+    "x": 223,
+    "y": 3596,
+    "w": 273,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "❤️ Cœur, tension & circulati",
+    "x": 506,
+    "y": 3530,
+    "w": 255,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🦴 Articulations & douleurs",
+    "x": 506,
+    "y": 3596,
+    "w": 255,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🚹 Prostate & confort urinai",
+    "x": 770,
+    "y": 3530,
+    "w": 293,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🚺 Femme : hormones & ménopa",
+    "x": 770,
+    "y": 3596,
+    "w": 293,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🔥 Vitalité sexuelle & ferti",
+    "x": 1073,
+    "y": 3530,
+    "w": 245,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "🧠 Mémoire & concentration",
+    "x": 1073,
+    "y": 3596,
+    "w": 245,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "👁️ Yeux & vision",
+    "x": 1328,
+    "y": 3530,
+    "w": 224,
+    "h": 56
+   },
+   {
+    "c": "a.need",
+    "t": "💪 Os, dents & croissance",
+    "x": 1328,
+    "y": 3596,
+    "w": 224,
+    "h": 56
+   }
+  ]
+ },
+ "produit": {
+  "h": 2619,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "div.pd-img",
+    "t": "",
+    "x": 0,
+    "y": 4,
+    "w": 390,
+    "h": 440
+   },
+   {
+    "c": "h1.",
+    "t": "Forever Aloe Vera Gel",
+    "x": 16,
+    "y": 469,
+    "w": 358,
+    "h": 31
+   },
+   {
+    "c": "#pricebox div.pricebox",
+    "t": "Prix client conseillé 22 000",
+    "x": 16,
+    "y": 599,
+    "w": 358,
+    "h": 314
+   },
+   {
+    "c": "div.qty",
+    "t": "− 1 +",
+    "x": 244,
+    "y": 618,
+    "w": 114,
+    "h": 48
+   },
+   {
+    "c": "div.variants",
+    "t": "1 litre (#015) 22 000 F Mini",
+    "x": 32,
+    "y": 681,
+    "w": 326,
+    "h": 97
+   },
+   {
+    "c": "#orderBtn button.btn.wa",
+    "t": "Commander sur WhatsApp",
+    "x": 32,
+    "y": 791,
+    "w": 326,
+    "h": 48
+   },
+   {
+    "c": "#addBtn button.btn.ghost",
+    "t": "Ajouter au panier",
+    "x": 32,
+    "y": 849,
+    "w": 180,
+    "h": 48
+   },
+   {
+    "c": "#shareBtn button.btn.ghost",
+    "t": "Partager",
+    "x": 222,
+    "y": 849,
+    "w": 136,
+    "h": 48
+   },
+   {
+    "c": "h2.",
+    "t": "✨ Bienfaits",
+    "x": 32,
+    "y": 945,
+    "w": 326,
+    "h": 26
+   },
+   {
+    "c": "h2.",
+    "t": "🎯 Conseillé pour",
+    "x": 32,
+    "y": 1242,
+    "w": 326,
+    "h": 26
+   },
+   {
+    "c": "h2.",
+    "t": "📋 Utilisation",
+    "x": 32,
+    "y": 1528,
+    "w": 326,
+    "h": 26
+   },
+   {
+    "c": "h2.",
+    "t": "⚠️ Précautions",
+    "x": 33,
+    "y": 1693,
+    "w": 324,
+    "h": 26
+   },
+   {
+    "c": "div.sec",
+    "t": "À associer avec",
+    "x": 16,
+    "y": 1856,
+    "w": 358,
+    "h": 22
+   },
+   {
+    "c": "h2.",
+    "t": "À associer avec",
+    "x": 16,
+    "y": 1856,
+    "w": 135,
+    "h": 22
+   },
+   {
+    "c": "article.card",
+    "t": "#464 · Compléments Forever F",
+    "x": 0,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #034 · Boisso",
+    "x": 168,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "#068 · Compléments Forever F",
+    "x": 336,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "#621 · Compléments Forever S",
+    "x": 504,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #610 · Complé",
+    "x": 672,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "INCONTOURNABLE #547 / #548 ·",
+    "x": 840,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "#659 · Programmes Programme ",
+    "x": 1008,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   },
+   {
+    "c": "article.card",
+    "t": "#456 à #459 · Programmes Pro",
+    "x": 1176,
+    "y": 1892,
+    "w": 156,
+    "h": 291
+   }
+  ]
+ },
+ "panier": {
+  "h": 896,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "h1.",
+    "t": "Mon panier",
+    "x": 16,
+    "y": 6,
+    "w": 358,
+    "h": 33
+   },
+   {
+    "c": "div.row",
+    "t": "44 000 F CFA − 2 +",
+    "x": 110,
+    "y": 185,
+    "w": 254,
+    "h": 36
+   },
+   {
+    "c": "div.qty",
+    "t": "− 2 +",
+    "x": 270,
+    "y": 185,
+    "w": 94,
+    "h": 36
+   },
+   {
+    "c": "div.row",
+    "t": "32 000 F CFA − 1 +",
+    "x": 110,
+    "y": 301,
+    "w": 254,
+    "h": 36
+   },
+   {
+    "c": "div.qty",
+    "t": "− 1 +",
+    "x": 270,
+    "y": 301,
+    "w": 94,
+    "h": 36
+   },
+   {
+    "c": "div.total",
+    "t": "Total estimé 76 000 F 3 arti",
+    "x": 16,
+    "y": 363,
+    "w": 358,
+    "h": 103
+   },
+   {
+    "c": "#checkoutBtn button.btn.wa",
+    "t": "Commander sur WhatsApp",
+    "x": 16,
+    "y": 482,
+    "w": 358,
+    "h": 48
+   },
+   {
+    "c": "#clearBtn button.btn.ghost",
+    "t": "Vider le panier",
+    "x": 16,
+    "y": 540,
+    "w": 358,
+    "h": 48
+   }
+  ]
+ },
+ "form": {
+  "rects": [
+   {
+    "t": "Nom complet",
+    "x": 16,
+    "y": 346,
+    "w": 358,
+    "h": 74
+   },
+   {
+    "t": "Téléphone (WhatsApp) +22",
+    "x": 16,
+    "y": 432,
+    "w": 358,
+    "h": 76
+   },
+   {
+    "t": "Quartier / ville",
+    "x": 16,
+    "y": 520,
+    "w": 358,
+    "h": 74
+   },
+   {
+    "t": "Réception 🚚 Livraison \ud83c",
+    "x": 16,
+    "y": 606,
+    "w": 358,
+    "h": 74
+   },
+   {
+    "t": "🚚 Livraison 🏬 Retrait",
+    "x": 16,
+    "y": 631,
+    "w": 358,
+    "h": 50
+   },
+   {
+    "t": "🚚 Livraison",
+    "x": 16,
+    "y": 631,
+    "w": 175,
+    "h": 50
+   },
+   {
+    "t": "🏬 Retrait",
+    "x": 199,
+    "y": 631,
+    "w": 175,
+    "h": 50
+   },
+   {
+    "t": "Note (facultatif)",
+    "x": 16,
+    "y": 693,
+    "w": 358,
+    "h": 114
+   },
+   {
+    "t": "Envoyer la commande sur ",
+    "x": 16,
+    "y": 819,
+    "w": 358,
+    "h": 48
+   }
+  ],
+  "bottom": [
+   {
+    "t": "Nom complet",
+    "x": 16,
+    "y": 256,
+    "w": 358,
+    "h": 74
+   },
+   {
+    "t": "Téléphone (WhatsApp) +22",
+    "x": 16,
+    "y": 342,
+    "w": 358,
+    "h": 76
+   },
+   {
+    "t": "Quartier / ville",
+    "x": 16,
+    "y": 430,
+    "w": 358,
+    "h": 74
+   },
+   {
+    "t": "Réception 🚚 Livraison \ud83c",
+    "x": 16,
+    "y": 516,
+    "w": 358,
+    "h": 74
+   },
+   {
+    "t": "🚚 Livraison",
+    "x": 16,
+    "y": 541,
+    "w": 175,
+    "h": 50
+   },
+   {
+    "t": "🏬 Retrait",
+    "x": 199,
+    "y": 541,
+    "w": 175,
+    "h": 50
+   },
+   {
+    "t": "Note (facultatif)",
+    "x": 16,
+    "y": 603,
+    "w": 358,
+    "h": 114
+   },
+   {
+    "t": "Envoyer la commande sur ",
+    "x": 16,
+    "y": 729,
+    "w": 358,
+    "h": 48
+   }
+  ]
+ },
+ "signup0": {
+  "h": 1195,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "h1.",
+    "t": "Mon compte",
+    "x": 16,
+    "y": 6,
+    "w": 358,
+    "h": 33
+   },
+   {
+    "c": "div.tabs",
+    "t": "Se connecter Créer un compte",
+    "x": 16,
+    "y": 126,
+    "w": 358,
+    "h": 50
+   },
+   {
+    "c": "div.panel",
+    "t": "Nom complet Numéro de téléph",
+    "x": 16,
+    "y": 190,
+    "w": 358,
+    "h": 433
+   },
+   {
+    "c": "label.field",
+    "t": "Nom complet",
+    "x": 34,
+    "y": 208,
+    "w": 322,
+    "h": 74
+   },
+   {
+    "c": "label.field",
+    "t": "Numéro de téléphone +227",
+    "x": 34,
+    "y": 294,
+    "w": 322,
+    "h": 76
+   },
+   {
+    "c": "div.phone-in",
+    "t": "+227",
+    "x": 34,
+    "y": 318,
+    "w": 322,
+    "h": 52
+   },
+   {
+    "c": "label.field",
+    "t": "Quartier / ville (facultatif",
+    "x": 34,
+    "y": 382,
+    "w": 322,
+    "h": 74
+   },
+   {
+    "c": "label.field",
+    "t": "Mot de passe (6 caractères m",
+    "x": 34,
+    "y": 468,
+    "w": 322,
+    "h": 76
+   },
+   {
+    "c": "div.phone-in",
+    "t": "Afficher",
+    "x": 34,
+    "y": 493,
+    "w": 322,
+    "h": 52
+   },
+   {
+    "c": "#authBtn button.btn.pri",
+    "t": "Créer mon compte",
+    "x": 34,
+    "y": 557,
+    "w": 322,
+    "h": 48
+   },
+   {
+    "c": "div.panel",
+    "t": "📦 Historique de vos command",
+    "x": 16,
+    "y": 635,
+    "w": 358,
+    "h": 284
+   }
+  ]
+ },
+ "compte": {
+  "h": 1071,
+  "hh": 61,
+  "ny": 779,
+  "nh": 65,
+  "tabs": [
+   {
+    "tab": "accueil",
+    "x": 4,
+    "w": 76
+   },
+   {
+    "tab": "catalogue",
+    "x": 80,
+    "w": 76
+   },
+   {
+    "tab": "besoins",
+    "x": 157,
+    "w": 76
+   },
+   {
+    "tab": "liste",
+    "x": 233,
+    "w": 76
+   },
+   {
+    "tab": "compte",
+    "x": 310,
+    "w": 76
+   }
+  ],
+  "rects": [
+   {
+    "c": "div.panel.profile",
+    "t": "A Aminata Moussa  +227 90 12",
+    "x": 16,
+    "y": 8,
+    "w": 358,
+    "h": 94
+   },
+   {
+    "c": "h2.",
+    "t": "Aminata Moussa",
+    "x": 106,
+    "y": 29,
+    "w": 250,
+    "h": 30
+   },
+   {
+    "c": "div.sec",
+    "t": "Mes commandes  Le statut est",
+    "x": 16,
+    "y": 128,
+    "w": 358,
+    "h": 46
+   },
+   {
+    "c": "h2.",
+    "t": "Mes commandes",
+    "x": 16,
+    "y": 128,
+    "w": 273,
+    "h": 23
+   },
+   {
+    "c": "div.order",
+    "t": "Commande N° 1024 12 nov. 202",
+    "x": 16,
+    "y": 186,
+    "w": 358,
+    "h": 195
+   },
+   {
+    "c": "div.steps",
+    "t": "",
+    "x": 30,
+    "y": 250,
+    "w": 330,
+    "h": 4
+   },
+   {
+    "c": "button.btn.ghost.mini",
+    "t": "Recommander",
+    "x": 243,
+    "y": 328,
+    "w": 117,
+    "h": 38
+   },
+   {
+    "c": "div.order",
+    "t": "Commande N° 1009 31 oct. 202",
+    "x": 16,
+    "y": 390,
+    "w": 358,
+    "h": 195
+   },
+   {
+    "c": "div.steps",
+    "t": "",
+    "x": 30,
+    "y": 455,
+    "w": 330,
+    "h": 4
+   },
+   {
+    "c": "button.btn.ghost.mini",
+    "t": "Recommander",
+    "x": 243,
+    "y": 533,
+    "w": 117,
+    "h": 38
+   },
+   {
+    "c": "details.panel",
+    "t": "✏️ Modifier mes informations",
+    "x": 16,
+    "y": 601,
+    "w": 358,
+    "h": 59
+   },
+   {
+    "c": "label.field",
+    "t": "",
+    "x": 34,
+    "y": 656,
+    "w": 322,
+    "h": 74
+   },
+   {
+    "c": "label.field",
+    "t": "",
+    "x": 34,
+    "y": 742,
+    "w": 322,
+    "h": 74
+   },
+   {
+    "c": "button.btn.pri",
+    "t": "",
+    "x": 34,
+    "y": 828,
+    "w": 322,
+    "h": 48
+   },
+   {
+    "c": "details.panel",
+    "t": "🔑 Changer mon mot de passe",
+    "x": 16,
+    "y": 672,
+    "w": 358,
+    "h": 59
+   },
+   {
+    "c": "label.field",
+    "t": "",
+    "x": 34,
+    "y": 727,
+    "w": 322,
+    "h": 76
+   },
+   {
+    "c": "div.phone-in",
+    "t": "",
+    "x": 34,
+    "y": 751,
+    "w": 322,
+    "h": 52
+   },
+   {
+    "c": "label.field",
+    "t": "",
+    "x": 34,
+    "y": 815,
+    "w": 322,
+    "h": 74
+   },
+   {
+    "c": "button.btn.pri",
+    "t": "",
+    "x": 34,
+    "y": 902,
+    "w": 322,
+    "h": 48
+   },
+   {
+    "c": "#logoutBtn button.btn.ghost",
+    "t": "Se déconnecter",
+    "x": 16,
+    "y": 747,
+    "w": 358,
+    "h": 48
+   }
+  ]
+ }
+}
