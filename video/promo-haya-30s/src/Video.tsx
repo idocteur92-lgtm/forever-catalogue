@@ -1,11 +1,11 @@
 import React from 'react';
 import { AbsoluteFill, Audio, Img, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { T } from './theme';
-import { FPS, HOOK, HOOK_END, PHRASES, TOTAL_S, at, find } from './timeline';
+import { CTA_T, FIN_START, FPS, HOOK, HOOK_END, PHRASES, TOTAL_S, at, find } from './timeline';
 import { Backdrop, CardStage, Kinetic, Logo, WaIcon, cl, ez, fr, sp } from './core';
 import { AccueilCard, BesoinsCard, CommandeCard, ProduitCard, WhatsAppCard } from './cards';
 
-export const VOICE = false; // passer à true quand public/voice.mp3 (ElevenLabs) est prêt
+export const VOICE = true; // passer à true quand public/voice.mp3 (ElevenLabs) est prêt
 const C = T.c;
 
 /* Accroche : un gros mot par écran, qui arrive avec un flou de mouvement horizontal */
@@ -38,10 +38,10 @@ const Hook: React.FC = () => {
 const Fin: React.FC = () => {
   const f = useCurrentFrame();
   const p = find('fin');
-  const a = fr(p.start);
+  const a = fr(FIN_START);
   const lg = sp(f, a, T.s.pop);
   const name = ez(f, a + 8, a + 20, 0, 1, T.e.soft);
-  const tCta = fr(26.0);
+  const tCta = fr(CTA_T);
   const cta = sp(f, tCta, T.s.card);
   const pill = sp(f, tCta + 8, T.s.pop);
   if (f < a - 2) return null;
@@ -90,21 +90,21 @@ const sfx = (): [number, string, number][] => {
   // commande
   L.push([at('commande', 'panier') - 0.2, 'pop', 0.16]); L.push([at('commande', 'panier'), 'pop', 0.16]);
   const tf = at('commande', 'remplissez');
-  for (let i = 0; i < 40; i += 2) L.push([tf + i / FPS, 'key', 0.08]);
+  for (let i = 0; i < 26; i += 2) L.push([tf + i / FPS, 'key', 0.08]);
   L.push([find('commande').end - 0.33, 'tap', 0.4]);
   // whatsapp
   L.push([at('whatsapp', 'bon') - 0.13, 'pop', 0.3]);
   L.push([at('whatsapp', 'WhatsApp') + 0.2, 'tick', 0.18]);
-  L.push([at('whatsapp', 'WhatsApp') + 1.13, 'pop', 0.24]);
+  L.push([at('whatsapp', 'WhatsApp') + 0.4, 'pop', 0.22]);
   // fin
-  L.push([find('fin').start - 0.05, 'chime', 0.32]);
-  L.push([26.0, 'air', 0.15]); L.push([26.25, 'blip', 0.2]);
+  L.push([FIN_START - 0.05, 'chime', 0.3]);
+  L.push([CTA_T - 0.05, 'air', 0.15]); L.push([CTA_T + 0.2, 'blip', 0.2]);
   return L;
 };
 
 export const Promo: React.FC = () => {
   const f = useCurrentFrame();
-  const finA = fr(find('fin').start) - 6;
+  const finA = fr(FIN_START) - 6;
   const night = ez(f, finA, finA + 12, 0, 1, T.e.inOut);
   const glows: Record<string, string> = { accueil: 'rgba(143,209,158,.55)', produit: 'rgba(232,179,26,.35)', besoins: 'rgba(232,179,26,.30)', commande: 'rgba(143,209,158,.5)', whatsapp: 'rgba(37,211,102,.28)' };
   const cur = PHRASES.find((p) => f >= fr(p.start) - 6 && f < fr(p.end) + 4);
@@ -120,8 +120,8 @@ export const Promo: React.FC = () => {
       <CardStage from={find('commande').start} to={find('commande').end} top={top - 40}><CommandeCard /></CardStage>
       <CardStage from={find('whatsapp').start} to={find('whatsapp').end + 0.2} top={top - 20}><WhatsAppCard /></CardStage>
       <Fin />
-      <Audio src={staticFile('music.wav')} volume={(x) => interpolate(x, [0, 6, fr(TOTAL_S) - 20, fr(TOTAL_S)], [0, VOICE ? 0.42 : 0.8, VOICE ? 0.42 : 0.8, 0], cl)} />
-      {VOICE && <Audio src={staticFile('voice.mp3')} volume={1} />}
+      <Audio src={staticFile('music.wav')} volume={(x) => interpolate(x, [0, 6, fr(TOTAL_S) - 20, fr(TOTAL_S)], [0, VOICE ? 0.36 : 0.8, VOICE ? 0.36 : 0.8, 0], cl)} />
+      {VOICE && <Audio src={staticFile('voice.wav')} volume={1} />}
       {sfx().map(([t, s, v], i) => <Sequence key={i} from={Math.max(0, fr(t))}><Audio src={staticFile(`sfx/${s}.wav`)} volume={v} /></Sequence>)}
     </AbsoluteFill>
   );

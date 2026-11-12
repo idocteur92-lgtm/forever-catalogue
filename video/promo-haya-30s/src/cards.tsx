@@ -201,13 +201,13 @@ export const CommandeCard: React.FC = () => {
         </div>
       </div>
       {fields.map(([l, v], i) => {
-        const st = tFill + i * 16;
-        const act = f >= st && f < st + 16;
+        const st = tFill + i * 8;
+        const act = f >= st && f < st + 9;
         return (
           <div key={l} style={{ marginTop: 14 }}>
             <div style={{ fontWeight: 800, fontSize: 20, color: C.muted, marginBottom: 7 }}>{l}</div>
             <div style={{ height: 70, borderRadius: 20, border: `3px solid ${act ? C.green3 : C.line}`, background: act ? '#fff' : C.cream, display: 'flex', alignItems: 'center', padding: '0 22px', fontSize: 26, fontWeight: 600, boxShadow: act ? `0 0 0 6px ${C.mint}` : 'none' }}>
-              {typed(v, f, st, 1)}<Caret on={act} />
+              {typed(v, f, st, 0.5)}<Caret on={act} />
             </div>
           </div>
         );
@@ -225,9 +225,9 @@ export const WhatsAppCard: React.FC = () => {
   const tBub = fr(at('whatsapp', 'bon')) - 4;
   const tWa = fr(at('whatsapp', 'WhatsApp'));
   const b = sp(f, tBub, T.s.card);
-  const blue = f > tWa + 6;
-  const typing = f > tWa + 10 && f < tWa + 34;
-  const rep = sp(f, tWa + 34, T.s.pop);
+  const blue = f > tWa + 4;
+  const typing = f > tWa + 4 && f < tWa + 12;
+  const rep = sp(f, tWa + 12, T.s.pop);
   const ticks = (c: string) => (
     <span style={{ display: 'inline-flex' }}>
       {[0, 1].map((i) => <svg key={i} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: i ? -15 : 0 }}><path d="M5 12.5l4.2 4.2L19 7" /></svg>)}

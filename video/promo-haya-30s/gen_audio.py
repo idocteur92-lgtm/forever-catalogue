@@ -41,7 +41,7 @@ def add(buf, x, at, g=1.0, pan=0.0):
     buf[i:j, 0] += x[:j - i] * g * L; buf[i:j, 1] += x[:j - i] * g * R
 
 # ───────── MUSIQUE ─────────
-DUR = 30.0; BPM = 100; BEAT = 60 / BPM; BAR = 4 * BEAT
+DUR = 28.0; BPM = 100; BEAT = 60 / BPM; BAR = 4 * BEAT
 START = 3.38            # le groove démarre après le « silence » de l'accroche
 N = int((DUR + 2) * SR)
 mus = np.zeros((N, 2)); sc = np.ones(N)   # sc = enveloppe de compression (pompe)
@@ -97,13 +97,13 @@ for b in range(nb):
 
 mus[:, 0] *= sc; mus[:, 1] *= sc
 # accroche (0–3 s) : un coup de sub sur chaque question, puis silence net avant le groove
-for at in (0.10, 1.00, 1.90):
+for at in (0.15, 0.89, 1.83):
     add(mus, kick(1.0), at, 0.7); add(mus, sub(38, 0.7), at, 0.35)
 t = T(1.0); rise = hp(rng.standard_normal(len(t)), 2500) * (t / 1.0) ** 3
-add(mus, rise, 2.1, 0.05)
+add(mus, rise, 2.15, 0.05)
 add(mus, kick(1.0), START, 0.7)
 # fin : accord final tenu + fondu
-end = 23.4
+end = 19.93
 for i, m in enumerate(CH[0]): add(mus, epiano(m + 12, 7.0, 0.7), end + i * 0.02, 0.12, pan=(i - 2) * 0.25)
 add(mus, sub(38, 4.0), end, 0.4)
 n_end = int(DUR * SR); f = int(2.0 * SR)
