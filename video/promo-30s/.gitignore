@@ -1,0 +1,6 @@
+node_modules/
+/out/
+/shots/
+/fonts.css
+public/music.wav
+public/sfx/

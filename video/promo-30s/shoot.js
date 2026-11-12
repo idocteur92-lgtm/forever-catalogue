@@ -1,0 +1,26 @@
+const { chromium } = require('playwright');
+const URL = 'https://forever-catalogue-eight.vercel.app/';
+(async () => {
+  const b = await chromium.launch();
+  const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'fr-FR' });
+  const pg = await ctx.newPage();
+  await pg.goto(URL, { waitUntil: 'networkidle' });
+  const snap = async (name) => { await pg.waitForTimeout(900); await pg.screenshot({ path: `shots/${name}.png` }); console.log(name); };
+  const go = async (h, name) => { await pg.evaluate(h => { location.hash = h; }, h); await pg.waitForTimeout(1500); await snap(name); };
+  await go('accueil', 'home');
+  await pg.evaluate(() => window.scrollTo(0, 700)); await snap('home2');
+  await pg.evaluate(() => window.scrollTo(0, 0));
+  await go('catalogue', 'catalogue');
+  await go('besoins', 'besoins');
+  await go('besoin-prostate', 'prostate');
+  await go('besoin-poids', 'poids');
+  await go('produit-715', 'produit');
+  await pg.evaluate(() => window.scrollTo(0, 600)); await snap('produit2');
+  await pg.evaluate(() => { localStorage.setItem('fl-cart', JSON.stringify({ '715|0': 2, '196|0': 1 })); });
+  await pg.reload({ waitUntil: 'networkidle' });
+  await go('liste', 'panier');
+  await pg.click('#checkoutBtn'); await snap('form-empty');
+  const ins = await pg.$$('#sheet input, #sheet textarea');
+  console.log('inputs', await Promise.all(ins.map(i => i.evaluate(e => e.name || e.id || e.placeholder))));
+  await b.close();
+})();
